@@ -2,7 +2,7 @@ package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
-import com.codecool.quest.logic.Drawable;
+import com.codecool.quest.logic.interfaces.Drawable;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
