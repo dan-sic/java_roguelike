@@ -4,10 +4,14 @@ import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.GameMap;
 import com.codecool.quest.logic.MapLoader;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -36,10 +40,33 @@ public class Main extends Application {
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
 
+        Button pickItemButton = new Button("Pick Item");
+        pickItemButton.setPadding(new Insets(5));
+        pickItemButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                map.getPlayer().pickItem();
+            }
+        });
+        Button attackButton = new Button("Attack");
+        attackButton.setPadding(new Insets(5));
+        attackButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+
+            }
+        });
+
+        GridPane bottomPane = new GridPane();
+        bottomPane.setPadding(new Insets(10));
+        bottomPane.setHgap(10);
+        bottomPane.add(pickItemButton,0,0);
+        bottomPane.add(attackButton,1,0);
+
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
+        borderPane.setBottom(bottomPane);
+
 
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
