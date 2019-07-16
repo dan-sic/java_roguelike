@@ -3,8 +3,9 @@ package com.codecool.quest.logic.actors;
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
 import com.codecool.quest.logic.interfaces.Drawable;
+import com.codecool.quest.logic.interfaces.Movable;
 
-public abstract class Actor implements Drawable {
+public abstract class Actor implements Drawable, Movable {
     private Cell cell;
     private int health = 10;
 
