@@ -1,8 +1,9 @@
 package com.codecool.quest.logic;
 
+import com.codecool.quest.logic.actors.Actor;
 import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.Skeleton;
-import com.codecool.quest.logic.actors.Doors;
+import com.codecool.quest.logic.items.Doors;
 import com.codecool.quest.logic.items.Sword;
 import com.codecool.quest.logic.items.Key;
 

@@ -2,12 +2,17 @@ package com.codecool.quest;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.GameMap;
+import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.MapLoader;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +26,7 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -40,11 +46,17 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridPane ui = new GridPane();
+        GridPane bottomPane = new GridPane();
+
         CreateUserInterfaceSideBar(ui);
+        CreateUserInterfaceBottomBar(bottomPane);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
+        borderPane.setBottom(bottomPane);
+
+        showInventory();
         createScene(borderPane, primaryStage);
     }
 
@@ -101,7 +113,7 @@ public class Main extends Application {
 
     private void CreateUserInterfaceSideBar(GridPane ui){
         ui.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(8))));
+                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
         ui.setPrefWidth(200);
         ui.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
         ui.setPadding(new Insets(10));
@@ -112,7 +124,40 @@ public class Main extends Application {
         ui.add(healthLabel, 1, 0);
 
         inventoryLabelText.setTextFill(Color.WHITESMOKE);
+        inventoryLabel.setTextFill(Color.WHITESMOKE);
         ui.add(inventoryLabelText, 0, 1);
         ui.add(inventoryLabel, 0, 2);
+    }
+
+    private void CreateUserInterfaceBottomBar(GridPane bottomPane){
+        bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
+                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
+        bottomPane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
+        bottomPane.setPadding(new Insets(10));
+        bottomPane.setHgap(10);
+
+        Button pickItemButton = new Button("Pick Item");
+        pickItemButton.setPadding(new Insets(5));
+        pickItemButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                map.getPlayer().pickItem();
+                showInventory();
+            }
+        });
+        Button attackButton = new Button("Attack");
+        attackButton.setPadding(new Insets(5));
+        attackButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+
+            }
+        });
+
+        bottomPane.add(pickItemButton,0,0);
+        bottomPane.add(attackButton,1,0);
+    }
+
+    private void showInventory(){
+        Inventory inv = map.getPlayer().getPlayerInventory();
+        inventoryLabel.setText(inv.toString());
     }
 }
