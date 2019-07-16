@@ -7,13 +7,19 @@ import com.sun.org.apache.xerces.internal.xs.StringList;
 
 
 public class Player extends Actor {
+    private Inventory playerInventory;
 
     public Player(Cell cell) {
         super(cell);
-        Inventory playerInventory = new Inventory();
+        playerInventory = new Inventory();
     }
 
     public String getTileName() {
         return "player";
     }
+
+    public Inventory getPlayerInventory(){
+        return playerInventory;
+    }
+
 }
