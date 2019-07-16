@@ -7,8 +7,17 @@ public class Doors extends Actor {
         super(cell);
     }
 
+    boolean opened = false;
+
+    public void open() {
+        opened = true;
+    }
+
     @Override
     public String getTileName() {
-        return "doors";
+        if(!opened) {
+            return "doors";
+        } else return "doors_opened";
+
     }
 }
