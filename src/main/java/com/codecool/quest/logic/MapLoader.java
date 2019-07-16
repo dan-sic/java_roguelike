@@ -2,6 +2,7 @@ package com.codecool.quest.logic;
 
 import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.Skeleton;
+import com.codecool.quest.logic.actors.Doors;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -35,14 +36,15 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Skeleton(cell);
                             break;
+                        case '%':
+                            cell.setType(CellType.FLOOR);
+                            new Doors(cell);
+                            break;
                         case '@':
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
                             break;
-                        case '%':
-                            cell.setType(CellType.DOORS);
-//                            new Skeleton(cell);
-                            break;
+
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
