@@ -21,11 +21,8 @@ public class Player extends Actor {
         Cell cell = this.getCell();
         if(cell.getItem() != null){
             Item item = cell.getItem();
-            cell.setItem(null);
-
-            // ADD ITEM TO INVENTORY
-            System.out.println("ITEMTIMTIETMIE");
-
+            item.vanishItem();
+            playerInventory.addItem(item);
         }
     }
 
