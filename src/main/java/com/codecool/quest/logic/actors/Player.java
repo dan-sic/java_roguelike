@@ -4,12 +4,16 @@ import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.items.Item;
 
+
 public class Player extends Actor {
 
     private Inventory playerInventory;
+    private String name;
+
     private Item currentlyEquipped = null;
 
     public Player(Cell cell) {
+
         super(cell);
         playerInventory = new Inventory();
         this.isEnemy = false;
@@ -18,6 +22,7 @@ public class Player extends Actor {
     }
 
     public String getTileName() {
+
         return "player";
     }
 
@@ -64,8 +69,8 @@ public class Player extends Actor {
 
     private void attack(Actor actor){
         if (currentlyEquipped != null){
-            actor.printHealth("before");
-            actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()));
+            //actor.printHealth("before");
+            actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()),this);
 
             currentlyEquipped.durability -= 30;
 
@@ -73,7 +78,7 @@ public class Player extends Actor {
                 currentlyEquipped = null;
         }
         else
-            actor.receiveAttack(getAttackPower());
+            actor.receiveAttack(getAttackPower(),this);
     }
 
     public String interactWithActor(){
@@ -85,7 +90,13 @@ public class Player extends Actor {
             }
             return message;
         }
-        return null;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
     }
 
 }
