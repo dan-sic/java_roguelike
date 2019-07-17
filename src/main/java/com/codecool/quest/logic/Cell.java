@@ -1,6 +1,7 @@
 package com.codecool.quest.logic;
 
 import com.codecool.quest.logic.actors.Actor;
+import com.codecool.quest.logic.interactable.Interactable;
 import com.codecool.quest.logic.items.Item;
 
 public class Cell implements Drawable {
@@ -8,6 +9,7 @@ public class Cell implements Drawable {
     private CellType type;
     private Actor actor;
     private GameMap gameMap;
+    private Interactable interactable;
     private int x, y;
 
     public Cell(GameMap gameMap, int x, int y, CellType type) {
@@ -38,6 +40,13 @@ public class Cell implements Drawable {
     public void setActor(Actor actor) {
         this.actor = actor;
     }
+
+
+    public void setInteractable(Interactable interactable) {
+        this.interactable = interactable;
+    }
+
+    public Interactable getInteractable(){return interactable;}
 
 
     public Actor getActor() {

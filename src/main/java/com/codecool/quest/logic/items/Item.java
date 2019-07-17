@@ -18,9 +18,4 @@ public abstract class Item implements Drawable {
         this.cell.setItem(null);
         this.cell = null;
     }
-
-//    public void openDoor(){
-//        this.cell.setItem(doors_opened);
-////        this.cell = null;
-//    }
 }

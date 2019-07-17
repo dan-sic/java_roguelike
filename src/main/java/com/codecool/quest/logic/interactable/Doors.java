@@ -1,23 +1,24 @@
-package com.codecool.quest.logic.items;
+package com.codecool.quest.logic.interactable;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
+import com.codecool.quest.logic.items.Item;
 //import com.codecool.quest.logic.items;
 
-public class Doors extends Item {
+public class Doors extends Interactable {
     public Doors(Cell cell) {
         super(cell);
     }
 
-    String opened = "doors";
+    Boolean opened = false;
 
-    public void open() {
-        opened = "doors_opened";
+    public void Use() {
+        opened = true;
     }
 
     @Override
     public String getTileName() {
-        if(opened.equals("doors")) {
+        if(!opened) {
 
             return "doors";
         } else {
