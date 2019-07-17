@@ -8,6 +8,7 @@ import com.codecool.quest.logic.items.Item;
 public class Player extends Actor {
 
     private Inventory playerInventory;
+    private String name;
 
     private int health = 15;
     private Item currentlyEquipped = null;
@@ -79,4 +80,12 @@ public class Player extends Actor {
                 getNextCell().getActor().receiveAttack(getAttackPower());
         }
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
+    }
+
 }

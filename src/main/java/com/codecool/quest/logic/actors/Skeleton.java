@@ -13,4 +13,8 @@ public class Skeleton extends Actor {
     public String getTileName() {
         return "skeleton";
     }
+
+    public String getName(){
+        return "";
+    }
 }
