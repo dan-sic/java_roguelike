@@ -7,6 +7,7 @@ public class Skeleton extends Actor {
 
     public Skeleton(Cell cell) {
         super(cell);
+        this.changeAttackPower(-2);
     }
 
     @Override

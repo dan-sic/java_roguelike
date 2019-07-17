@@ -3,20 +3,18 @@ package com.codecool.quest.logic.actors;
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.items.Item;
-import com.sun.org.apache.xerces.internal.xs.StringList;
 
 
 public class Player extends Actor {
 
     private Inventory playerInventory;
 
-    private int health = 15;
     private Item currentlyEquipped = null;
 
     public Player(Cell cell) {
-
         super(cell);
         playerInventory = new Inventory();
+        this.changeHealth(5);
     }
 
     public String getTileName() {
@@ -51,25 +49,11 @@ public class Player extends Actor {
         return playerInventory;
     }
 
-    public Cell getNextCell(){
-        switch (getDirection()){
-            case "up":
-                return getCell().getNeighbor(0,1);
-            case "down":
-                return getCell().getNeighbor(0,-1);
-            case "left":
-                return getCell().getNeighbor(-1,0);
-            case "right":
-                return getCell().getNeighbor(1,0);
-        }
-        return getCell();
-    }
-
     public void attack(){
         if(getNextCell().getActor() != null) {
             if (currentlyEquipped != null){
                 getNextCell().getActor().printHealth("before");
-                getNextCell().getActor().receiveAttack((getAttackPower() + getEquippedWeaponAttack()));
+                getNextCell().getActor().receiveAttack((getAttackPower() + getEquippedWeaponAttack()), this);
 
                 currentlyEquipped.durability -= 30;
 
@@ -77,7 +61,7 @@ public class Player extends Actor {
                     currentlyEquipped = null;
             }
             else
-                getNextCell().getActor().receiveAttack(getAttackPower());
+                getNextCell().getActor().receiveAttack(getAttackPower(), this);
         }
     }
 }

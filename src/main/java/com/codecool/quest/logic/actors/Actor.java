@@ -38,6 +38,10 @@ public abstract class Actor implements Drawable {
         System.out.println(health+msg);
     }
 
+    public void changeAttackPower(int change){
+        attackPower += change;
+    }
+
     public int getHealth() {
         return health;
     }
@@ -70,11 +74,32 @@ public abstract class Actor implements Drawable {
         return cell.getY();
     }
 
-    public void receiveAttack(int receivedDamage){
+    public Cell getNextCell(){
+        switch (getDirection()){
+            case "down":
+                return getCell().getNeighbor(0,1);
+            case "up":
+                return getCell().getNeighbor(0,-1);
+            case "left":
+                return getCell().getNeighbor(-1,0);
+            case "right":
+                return getCell().getNeighbor(1,0);
+        }
+        return getCell();
+    }
+
+    public void receiveAttack(int receivedDamage, Actor player){
         changeHealth(-receivedDamage);
         if (health<=0){
             death();
+        } else{
+            if( player != null)
+                this.attackPlayer(player);
         }
+    }
+
+    public void attackPlayer(Actor player){
+        player.receiveAttack(getAttackPower(),null);
     }
 
     public void death(){
