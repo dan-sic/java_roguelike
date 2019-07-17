@@ -54,18 +54,22 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
+                map.getPlayer().changeDirection("up");
                 map.getPlayer().move(0, -1);
                 refresh();
                 break;
             case DOWN:
+                map.getPlayer().changeDirection("down");
                 map.getPlayer().move(0, 1);
                 refresh();
                 break;
             case LEFT:
+                map.getPlayer().changeDirection("left");
                 map.getPlayer().move(-1, 0);
                 refresh();
                 break;
             case RIGHT:
+                map.getPlayer().changeDirection("right");
                 map.getPlayer().move(1,0);
                 refresh();
                 break;

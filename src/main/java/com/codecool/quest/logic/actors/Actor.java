@@ -8,6 +8,7 @@ public abstract class Actor implements Drawable {
     private Cell cell;
     private int health = 10;
     private int attackPower = 5;
+    private String direction = "up";
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -32,6 +33,22 @@ public abstract class Actor implements Drawable {
         return health;
     }
 
+    public void changeHealth(int change){
+        health += change;
+    }
+
+    public int getAttackPower(){
+        return attackPower;
+    }
+
+    public String getDirection(){
+        return direction;
+    }
+
+    public void changeDirection(String newDirection){
+        direction = newDirection;
+    }
+
     public Cell getCell() {
         return cell;
     }
@@ -42,5 +59,16 @@ public abstract class Actor implements Drawable {
 
     public int getY() {
         return cell.getY();
+    }
+
+    public void receiveAttack(int receivedDamage){
+        changeHealth(-receivedDamage);
+        if (health<=0){
+            death();
+        }
+    }
+
+    public void death(){
+        System.out.println("DEATH");
     }
 }
