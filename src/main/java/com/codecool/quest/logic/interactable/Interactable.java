@@ -13,7 +13,7 @@ public abstract class Interactable implements Drawable {
     }
 
     public abstract void Use();
-
+    public abstract boolean isPassable();
 
 
 //    public void openDoor(){

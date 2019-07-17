@@ -10,10 +10,15 @@ public class Doors extends Interactable {
         super(cell);
     }
 
-    Boolean opened = false;
+    boolean opened = false;
 
     public void Use() {
         opened = true;
+    }
+
+    @Override
+    public boolean isPassable() {
+        return opened;
     }
 
     @Override

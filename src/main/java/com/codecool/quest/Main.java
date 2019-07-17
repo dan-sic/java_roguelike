@@ -75,9 +75,9 @@ public class Main extends Application {
             case E:
                 if(map.getPlayer().pickItem()) {
                     showInventory();
-                    break;
-                }else if(false) { //check for doors
-                    // open doors
+//                    break;
+                }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
+                    map.getPlayer().getNextCell().getInteractable().Use();
                 }else{
                     map.getPlayer().attack();
                     refresh();
