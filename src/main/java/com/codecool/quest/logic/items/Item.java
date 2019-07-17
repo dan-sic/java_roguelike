@@ -13,7 +13,8 @@ public abstract class Item implements Drawable {
     }
 
     public void vanishItem(){
-
+        this.cell.setItem(null);
+        this.cell = null;
     }
 }
 
