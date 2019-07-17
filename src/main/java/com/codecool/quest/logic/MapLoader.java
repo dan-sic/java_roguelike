@@ -37,15 +37,15 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.FLOOR);
-                            new Skeleton(cell);
+                            map.addMonster(new Skeleton(cell));
                             break;
                         case 'o':
                             cell.setType(CellType.FLOOR);
-                            new Golem(cell);
+                            map.addMonster(new Golem(cell));
                             break;
                         case 'g':
                             cell.setType(CellType.FLOOR);
-                            new Ghost(cell);
+                            map.addMonster(new Ghost(cell));
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);

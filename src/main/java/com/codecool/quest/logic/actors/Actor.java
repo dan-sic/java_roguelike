@@ -6,7 +6,7 @@ import com.codecool.quest.logic.interfaces.Drawable;
 import com.codecool.quest.logic.interfaces.Movable;
 
 public abstract class Actor implements Drawable, Movable {
-    private Cell cell;
+    protected Cell cell;
     private int health = 10;
     private int attack = 3;
 
@@ -18,15 +18,21 @@ public abstract class Actor implements Drawable, Movable {
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
 
-        boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
-        boolean isNextCellActor = nextCell.getActor() != null;
+        boolean isMoveValid = isMoveValid(nextCell);
 
-        if (!isNextCellWall && !isNextCellActor) {
+        if (isMoveValid) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         }
 
+    }
+
+    protected boolean isMoveValid(Cell nextCell) {
+        boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
+        boolean isNextCellActor = nextCell.getActor() != null;
+
+        return !isNextCellWall && !isNextCellActor;
     }
 
     public int getHealth() {

@@ -11,6 +11,20 @@ public class Ghost extends Monster {
         super(cell);
     }
 
+    public void move() {
+//        Cell nextCell = cell.getNeighbor(dx, dy);
+//
+//        boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
+//        boolean isNextCellActor = nextCell.getActor() != null;
+//
+//        if (!isNextCellWall && !isNextCellActor) {
+//            cell.setActor(null);
+//            nextCell.setActor(this);
+//            cell = nextCell;
+//        }
+        System.out.println("Ghost move");
+    }
+
     @Override
     public String getTileName() {
         return "ghost";

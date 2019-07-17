@@ -8,4 +8,8 @@ public abstract class Monster extends Actor {
         super(cell);
     }
 
+    abstract public void move();
+
+//    public void notifyRefreshToMonster();
+
 }

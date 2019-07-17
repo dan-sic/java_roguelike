@@ -11,6 +11,10 @@ public class Golem extends Monster {
         super(cell);
     }
 
+    public void move() {
+        System.out.println("Golem move");
+    }
+
     @Override
     public String getTileName() {
         return "golem";

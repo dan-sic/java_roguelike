@@ -3,6 +3,7 @@ package com.codecool.quest;
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.GameMap;
 import com.codecool.quest.logic.MapLoader;
+import com.codecool.quest.logic.actors.Monster;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -50,22 +53,35 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    private void moveMonters() {
+        List<Monster> monsters = map.getMonsters();
+
+        for (Monster monster : monsters) {
+            monster.move();
+        }
+    }
+
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
+                moveMonters();
                 refresh();
                 break;
             case DOWN:
+
                 map.getPlayer().move(0, 1);
+                moveMonters();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                moveMonters();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
+                moveMonters();
                 refresh();
                 break;
         }
