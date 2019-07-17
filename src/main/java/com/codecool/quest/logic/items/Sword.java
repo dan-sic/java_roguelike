@@ -12,7 +12,7 @@ public class Sword extends Item {
         super(cell);
     }
 
-    private int attackModifier = +10;
+    public int attackModifier = 10;
 
     private int durability = 100;
 
