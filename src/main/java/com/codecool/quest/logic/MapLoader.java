@@ -1,12 +1,13 @@
 package com.codecool.quest.logic;
 
+import com.codecool.quest.logic.actors.Wizard;
 import com.codecool.quest.logic.actors.Ghost;
 import com.codecool.quest.logic.actors.Golem;
 import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.Skeleton;
-import com.codecool.quest.logic.interactable.Doors;
-import com.codecool.quest.logic.items.Key;
 import com.codecool.quest.logic.items.Sword;
+import com.codecool.quest.logic.items.Key;
+import com.codecool.quest.logic.interactable.Doors;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -61,6 +62,10 @@ public class MapLoader {
                         case '@':
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
+                            break;
+                        case 'w':
+                            cell.setType(CellType.FLOOR);
+                            new Wizard(cell);
                             break;
                         case '!':
                             cell.setType(CellType.FLOOR);

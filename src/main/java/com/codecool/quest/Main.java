@@ -32,6 +32,7 @@ public class Main extends Application {
     private Label inventoryLabelText = new Label("»»»INVENTORY«««");
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
+    Label messageLabel = new Label();
 
 
     public static void main(String[] args) {
@@ -91,16 +92,14 @@ public class Main extends Application {
                 break;
             case E:
                 if(map.getPlayer().pickItem()) {
-
-//                    break;
                 }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
                     if( map.getPlayer().getPlayerInventory().checkForItem("key") ){
                         map.getPlayer().getNextCell().getInteractable().Use();
                         map.getPlayer().getPlayerInventory().removeItem("key");
                     }
                 }else{
-                    map.getPlayer().attack();
-                    refresh();
+                    String message = map.getPlayer().interactWithActor();
+                    messageLabel.setText(message);
                 }
                 refresh();
                 break;
@@ -127,6 +126,7 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        showInventory();
     }
 
 
@@ -191,7 +191,6 @@ public class Main extends Application {
     }
 
     private void CreateUserInterfaceBottomBar(GridPane bottomPane){
-        formatUserInterface(bottomPane);
         bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
                 BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
 
@@ -199,25 +198,9 @@ public class Main extends Application {
         bottomPane.setPadding(new Insets(10));
         bottomPane.setHgap(10);
 
-        Button pickItemButton = new Button("Pick Item");
-        formatBtn(pickItemButton);
-        pickItemButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                map.getPlayer().pickItem();
-                showInventory();
-            }
-        });
-        Button attackButton = new Button("Attack");
-        formatBtn(attackButton);
-        attackButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                map.getPlayer().attack();
-                refresh();
-            }
-        });
+        messageLabel.setTextFill(Color.WHITESMOKE);
+        bottomPane.add(messageLabel, 0, 0);
 
-        bottomPane.add(pickItemButton,0,0);
-        bottomPane.add(attackButton,1,0);
     }
 
     /**

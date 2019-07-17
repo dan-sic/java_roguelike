@@ -11,7 +11,10 @@ public class Skeleton extends Monster {
 
     public Skeleton(Cell cell) {
         super(cell);
-        this.changeAttackPower(-2);
+        this.isEnemy = true;
+        this.health = 10;
+        this.attackPower = 5;
+        setText(new String[]{"Urgh!","Please don't","I have a wife and family!"});
     }
 
     public void move() {

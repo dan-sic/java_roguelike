@@ -10,10 +10,13 @@ import java.util.List;
 
 public abstract class Actor implements Drawable, Movable {
     protected Cell cell;
-    private int health = 10;
+    protected int health;
     private String[] cheatNames = {"Michał", "Piotrek", "Janek", "Olek", "Daniel"};
-    private int attackPower = 3;
+    protected int attackPower;
     private String direction = "up";
+    protected boolean isEnemy;
+    private String[] text;
+    private int counter;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -54,7 +57,6 @@ public abstract class Actor implements Drawable, Movable {
         nextCell.setActor(this);
         cell = nextCell;
     }
-
     public void printHealth(String msg){
         System.out.println(health+msg);
     }
@@ -126,7 +128,20 @@ public abstract class Actor implements Drawable, Movable {
     }
 
     public void death(){
-        System.out.println("DEATH");
         getCell().setActor(null);
+    }
+
+    public void setText(String[] text){
+        this.text = text;
+    }
+
+    public String getNextText(){
+        //int index = (int)(Math.random() * text.length);
+        String temp = text[counter];
+        counter++;
+        if(counter >= text.length){
+            counter = 0;
+        }
+        return temp;
     }
 }
