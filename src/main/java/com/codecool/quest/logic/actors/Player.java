@@ -18,13 +18,15 @@ public class Player extends Actor {
         return "player";
     }
 
-    public void pickItem(){
+    public boolean pickItem(){
         Cell cell = this.getCell();
         if(cell.getItem() != null){
             Item item = cell.getItem();
             item.vanishItem();
             playerInventory.addItem(item);
+            return true;
         }
+        return false;
     }
 
     public Inventory getPlayerInventory(){
