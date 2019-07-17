@@ -78,6 +78,17 @@ public class Main extends Application {
                 map.getPlayer().move(1,0);
                 refresh();
                 break;
+            case E:
+                if(map.getPlayer().pickItem()) {
+                    showInventory();
+                    break;
+                }else if(true) { //check for doors
+                    // open doors
+                }else{
+                    //attack
+                }
+                refresh();
+                break;
         }
     }
 
