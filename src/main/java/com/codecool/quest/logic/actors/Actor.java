@@ -34,6 +34,10 @@ public abstract class Actor implements Drawable {
         }
     }
 
+    public void printHealth(String msg){
+        System.out.println(health+msg);
+    }
+
     public int getHealth() {
         return health;
     }
