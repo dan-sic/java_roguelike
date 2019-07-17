@@ -1,12 +1,8 @@
 package com.codecool.quest.logic;
 
 import com.codecool.quest.logic.items.Item;
-import com.codecool.quest.logic.items.Key;
-import com.codecool.quest.logic.items.Sword;
-import com.codecool.quest.Main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Inventory {
 
@@ -27,10 +23,10 @@ public class Inventory {
 
     public void addItem(Item itemToAdd){
         inventory.add(itemToAdd);
-
     }
 
     public void removeItem(Item itemToRemove){
         inventory.remove(itemToRemove);
     }
+
 }

@@ -2,7 +2,6 @@ package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.Inventory;
-import com.codecool.quest.logic.actors.Actor;
 import com.codecool.quest.logic.items.Item;
 import com.sun.org.apache.xerces.internal.xs.StringList;
 
@@ -10,6 +9,8 @@ import com.sun.org.apache.xerces.internal.xs.StringList;
 public class Player extends Actor {
 
     private Inventory playerInventory;
+
+    private int health = 15;
 
     public Player(Cell cell) {
 
@@ -37,4 +38,25 @@ public class Player extends Actor {
         return playerInventory;
     }
 
+    public Cell getNextCell(){
+        switch (getDirection()){
+            case "up":
+                return getCell().getNeighbor(0,1);
+            case "down":
+                return getCell().getNeighbor(0,-1);
+            case "left":
+                return getCell().getNeighbor(-1,0);
+            case "right":
+                return getCell().getNeighbor(1,0);
+        }
+        return getCell();
+    }
+
+    public void attack(){
+        getNextCell().getActor().receiveAttack(getAttackPower());
+    }
+
+    public void printDirection(){
+        System.out.println(this.getDirection());
+    }
 }

@@ -5,6 +5,8 @@ import com.codecool.quest.logic.Drawable;
 
 public abstract class Item implements Drawable {
 
+    public int attackModifier = 0;
+
     private Cell cell;
 
     public Item(Cell cell) { //Constructor, it makes items based on arguments
