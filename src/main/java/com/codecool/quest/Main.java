@@ -74,10 +74,11 @@ public class Main extends Application {
                 break;
             case E:
                 if(map.getPlayer().pickItem()) {
-                    showInventory();
+
 //                    break;
                 }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
                     map.getPlayer().getNextCell().getInteractable().Use();
+                    map.getPlayer().getPlayerInventory().removeItem("key");
                 }else{
                     map.getPlayer().attack();
                     refresh();
@@ -88,6 +89,7 @@ public class Main extends Application {
     }
 
     private void refresh() {
+        showInventory();
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {

@@ -13,7 +13,9 @@ public class Doors extends Interactable {
     boolean opened = false;
 
     public void Use() {
+
         opened = true;
+
     }
 
     @Override
