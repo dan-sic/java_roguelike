@@ -143,7 +143,7 @@ public class Main extends Application {
         attackButton.setPadding(new Insets(5));
         attackButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-
+                map.getPlayer().attack();
             }
         });
 
