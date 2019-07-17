@@ -8,22 +8,13 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -63,18 +54,22 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
+                map.getPlayer().changeDirection("up");
                 map.getPlayer().move(0, -1);
                 refresh();
                 break;
             case DOWN:
+                map.getPlayer().changeDirection("down");
                 map.getPlayer().move(0, 1);
                 refresh();
                 break;
             case LEFT:
+                map.getPlayer().changeDirection("left");
                 map.getPlayer().move(-1, 0);
                 refresh();
                 break;
             case RIGHT:
+                map.getPlayer().changeDirection("right");
                 map.getPlayer().move(1,0);
                 refresh();
                 break;
@@ -142,6 +137,7 @@ public class Main extends Application {
     private void CreateUserInterfaceBottomBar(GridPane bottomPane){
         bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
                 BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
+
         bottomPane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
         bottomPane.setPadding(new Insets(10));
         bottomPane.setHgap(10);
