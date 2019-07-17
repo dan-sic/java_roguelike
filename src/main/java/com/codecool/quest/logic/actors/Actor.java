@@ -70,5 +70,6 @@ public abstract class Actor implements Drawable {
 
     public void death(){
         System.out.println("DEATH");
+        getCell().setActor(null);
     }
 }
