@@ -77,8 +77,10 @@ public class Main extends Application {
 
 //                    break;
                 }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
-                    map.getPlayer().getNextCell().getInteractable().Use();
-                    map.getPlayer().getPlayerInventory().removeItem("key");
+                    if( map.getPlayer().getPlayerInventory().checkForItem("key") ){
+                        map.getPlayer().getNextCell().getInteractable().Use();
+                        map.getPlayer().getPlayerInventory().removeItem("key");
+                    }
                 }else{
                     map.getPlayer().attack();
                     refresh();

@@ -38,4 +38,14 @@ public class Inventory {
         }
     }
 
+    public Boolean checkForItem(String itemName){
+        Boolean isItem = false;
+        for (int i=0; i<inventory.size();i++) {
+            if (itemName.equals(inventory.get(i).getTileName())) {
+                isItem = true;
+            }
+        }
+        return isItem;
+    }
+
 }
