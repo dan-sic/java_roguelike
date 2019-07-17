@@ -11,6 +11,12 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
+    private static GameMap map;
+
+    public static GameMap getCurrentMap() {
+        return MapLoader.map;
+    }
+
     public static GameMap loadMap() {
         InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
         Scanner scanner = new Scanner(is);
@@ -65,6 +71,9 @@ public class MapLoader {
                 }
             }
         }
+
+        MapLoader.map = map;
+
         return map;
     }
 

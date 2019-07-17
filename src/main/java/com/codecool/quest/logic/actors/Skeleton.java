@@ -8,7 +8,6 @@ public class Skeleton extends Monster {
 
     private int health = 6;
     private int attack = 1;
-    boolean moveLeft = true;
 
     public Skeleton(Cell cell) {
         super(cell);
