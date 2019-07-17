@@ -7,6 +7,7 @@ import com.codecool.quest.logic.items.Item;
 
 public class Player extends Actor {
     private Inventory playerInventory;
+    private String name;
 
     public Player(Cell cell) {
         super(cell);
@@ -28,6 +29,14 @@ public class Player extends Actor {
 
     public Inventory getPlayerInventory(){
         return playerInventory;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
     }
 
 }

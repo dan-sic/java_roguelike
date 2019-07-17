@@ -7,6 +7,7 @@ import com.codecool.quest.logic.MapLoader;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,16 +15,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -111,32 +106,59 @@ public class Main extends Application {
     }
 
     private void CreateUserInterfaceSideBar(GridPane ui){
-        ui.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
-                BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(8))));
-        ui.setPrefWidth(200);
-        ui.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
-        ui.setPadding(new Insets(10));
+        createNameField(ui);
+        formatUserInterface(ui);
 
-        healthLabelText.setTextFill(Color.WHITESMOKE);
+        healthLabelText.setTextFill(Color.INDIANRED);
         healthLabel.setTextFill(Color.WHITESMOKE);
-        ui.add(healthLabelText, 0, 0);
-        ui.add(healthLabel, 1, 0);
+        ui.add(healthLabelText, 0, 4);
+        ui.add(healthLabel, 1, 4);
 
-        inventoryLabelText.setTextFill(Color.WHITESMOKE);
+        inventoryLabelText.setTextFill(Color.INDIANRED);
         inventoryLabel.setTextFill(Color.LIGHTGOLDENRODYELLOW);
-        ui.add(inventoryLabelText, 0, 1);
-        ui.add(inventoryLabel, 0, 2);
+        ui.add(inventoryLabelText, 0, 6);
+        ui.add(inventoryLabel, 0, 7);
+    }
+
+    private void createNameField(GridPane ui) {
+        Label label1 = new Label("Name:");
+        label1.setTextFill(Color.INDIANRED);
+        TextField textField = new TextField ();
+        textField.setText("Wojo69");
+        map.getPlayer().setName(textField.getText());
+        textField.setFocusTraversable(false);
+        textField.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        textField.setBorder(new Border(new BorderStroke(Color.GREY,
+                BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
+
+
+        Button submit = new Button("«");
+        formatBtn(submit);
+        submit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                String name = textField.getText();
+                map.getPlayer().setName(name);
+            }
+        });
+        ui.add(label1, 0, 0);
+        ui.add(textField, 0, 2);
+        ui.add(submit, 1, 2);
+    }
+
+    private void formatBtn(Button btn){
+        btn.setPadding(new Insets(5));
+        btn.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        btn.setBorder(new Border(new BorderStroke(Color.GREY,
+                BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
+        btn.getStyleClass().add("ui-btn");
     }
 
     private void CreateUserInterfaceBottomBar(GridPane bottomPane){
-        bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
-                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
-        bottomPane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
-        bottomPane.setPadding(new Insets(10));
+        formatUserInterface(bottomPane);
         bottomPane.setHgap(10);
 
         Button pickItemButton = new Button("Pick Item");
-        pickItemButton.setPadding(new Insets(5));
+        formatBtn(pickItemButton);
         pickItemButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 map.getPlayer().pickItem();
@@ -144,7 +166,7 @@ public class Main extends Application {
             }
         });
         Button attackButton = new Button("Attack");
-        attackButton.setPadding(new Insets(5));
+        formatBtn(attackButton);
         attackButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
 
@@ -153,6 +175,19 @@ public class Main extends Application {
 
         bottomPane.add(pickItemButton,0,0);
         bottomPane.add(attackButton,1,0);
+    }
+
+    /**
+     * formats border around user interface parts
+     * formats background color too
+     * @param pane
+     */
+    private void formatUserInterface(GridPane pane){
+        pane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
+                BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(8))));
+        pane.setPrefWidth(200);
+        pane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
+        pane.setPadding(new Insets(10));
     }
 
     private void showInventory(){
