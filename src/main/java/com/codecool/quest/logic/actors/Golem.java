@@ -2,17 +2,17 @@ package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
 
-public class Skeleton extends Actor {
+public class Golem extends Monster {
 
-    private int health = 6;
-    private int attack = 1;
+    private int health = 15;
+    private int attack = 3;
 
-    public Skeleton(Cell cell) {
+    public Golem(Cell cell) {
         super(cell);
     }
 
     @Override
     public String getTileName() {
-        return "skeleton";
+        return "golem";
     }
 }

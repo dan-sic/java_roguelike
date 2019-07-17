@@ -8,6 +8,7 @@ import com.codecool.quest.logic.interfaces.Movable;
 public abstract class Actor implements Drawable, Movable {
     private Cell cell;
     private int health = 10;
+    private int attack = 3;
 
     public Actor(Cell cell) {
         this.cell = cell;
