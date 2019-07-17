@@ -29,7 +29,6 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
 
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -75,11 +74,14 @@ public class Main extends Application {
                 break;
             case E:
                 if(map.getPlayer().pickItem()) {
-                    showInventory();
-                }else if(false) { //check for doors
-                    // open doors
+
+//                    break;
+                }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
+                    map.getPlayer().getNextCell().getInteractable().Use();
+                    map.getPlayer().getPlayerInventory().removeItem("key");
                 }else{
                     map.getPlayer().attack();
+                    refresh();
                 }
                 refresh();
                 break;
@@ -87,6 +89,7 @@ public class Main extends Application {
     }
 
     private void refresh() {
+        showInventory();
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {
@@ -96,6 +99,8 @@ public class Main extends Application {
                     Tiles.drawTile(context, cell.getActor(), x, y);
                 } else if(cell.getItem() != null){
                     Tiles.drawTile(context, cell.getItem(), x, y);
+                } else if(cell.getInteractable() != null){
+                    Tiles.drawTile(context, cell.getInteractable(), x, y);
                 }
                 else {
                     Tiles.drawTile(context, cell, x, y);
@@ -104,6 +109,7 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
     }
+
 
     private void createScene(BorderPane borderPane, Stage primaryStage){
         Scene scene = new Scene(borderPane);

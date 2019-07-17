@@ -17,20 +17,29 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-
+//        cell.setActor(null);
+//        nextCell.setActor(this);
+//        cell = nextCell;
         boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
         boolean isNextCellActor = nextCell.getActor() != null;
+        boolean isNextCellDoorClosed = false;
+        if (nextCell.getInteractable() != null){
+            isNextCellDoorClosed = !nextCell.getInteractable().isPassable();
+        }
 
-        if (!isNextCellWall && !isNextCellActor) {
+        if (!isNextCellWall && !isNextCellActor && !isNextCellDoorClosed) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
         }
-
     }
 
     public void printHealth(String msg){
         System.out.println(health+msg);
+    }
+
+    public void changeAttackPower(int change){
+        attackPower += change;
     }
 
     public int getHealth() {
@@ -65,11 +74,32 @@ public abstract class Actor implements Drawable {
         return cell.getY();
     }
 
-    public void receiveAttack(int receivedDamage){
+    public Cell getNextCell(){
+        switch (getDirection()){
+            case "down":
+                return getCell().getNeighbor(0,1);
+            case "up":
+                return getCell().getNeighbor(0,-1);
+            case "left":
+                return getCell().getNeighbor(-1,0);
+            case "right":
+                return getCell().getNeighbor(1,0);
+        }
+        return getCell();
+    }
+
+    public void receiveAttack(int receivedDamage, Actor player){
         changeHealth(-receivedDamage);
         if (health<=0){
             death();
+        } else{
+            if( player != null)
+                this.attackPlayer(player);
         }
+    }
+
+    public void attackPlayer(Actor player){
+        player.receiveAttack(getAttackPower(),null);
     }
 
     public void death(){

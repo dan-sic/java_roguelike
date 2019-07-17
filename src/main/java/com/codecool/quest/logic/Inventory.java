@@ -29,4 +29,13 @@ public class Inventory {
         inventory.remove(itemToRemove);
     }
 
+    public void removeItem(String itemName){
+        for (int i=0; i<inventory.size();i++){
+            if( itemName.equals(inventory.get(i).getTileName())){
+                inventory.remove(i);
+                break;
+            }
+        }
+    }
+
 }
