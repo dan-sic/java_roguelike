@@ -103,7 +103,7 @@ public class Main extends Application {
 
     private void CreateUserInterfaceSideBar(GridPane ui){
         ui.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
-                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
+                BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(8))));
         ui.setPrefWidth(200);
         ui.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
         ui.setPadding(new Insets(10));
@@ -114,7 +114,7 @@ public class Main extends Application {
         ui.add(healthLabel, 1, 0);
 
         inventoryLabelText.setTextFill(Color.WHITESMOKE);
-        inventoryLabel.setTextFill(Color.WHITESMOKE);
+        inventoryLabel.setTextFill(Color.LIGHTGOLDENRODYELLOW);
         ui.add(inventoryLabelText, 0, 1);
         ui.add(inventoryLabel, 0, 2);
     }

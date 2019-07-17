@@ -18,7 +18,8 @@ public class Inventory {
     public String toString(){
         StringBuilder items = new StringBuilder();
         for(Item item: inventory){
-            items.append(item.getTileName());
+            items.append(" » ");
+            items.append(item.getTileName().toUpperCase());
             items.append("\n");
         }
         return items.toString();
