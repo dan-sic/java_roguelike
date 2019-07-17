@@ -31,6 +31,7 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
 
+
     public static void main(String[] args) {
         launch(args);
     }
