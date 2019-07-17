@@ -1,11 +1,14 @@
 package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
+import com.codecool.quest.logic.CellType;
 import com.codecool.quest.logic.Drawable;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
     private int health = 10;
+    private int attackPower = 5;
+    private String direction = "up";
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -14,13 +17,36 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        cell.setActor(null);
-        nextCell.setActor(this);
-        cell = nextCell;
+
+        boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
+        boolean isNextCellActor = nextCell.getActor() != null;
+
+        if (!isNextCellWall && !isNextCellActor) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+        }
+
     }
 
     public int getHealth() {
         return health;
+    }
+
+    public void changeHealth(int change){
+        health += change;
+    }
+
+    public int getAttackPower(){
+        return attackPower;
+    }
+
+    public String getDirection(){
+        return direction;
+    }
+
+    public void changeDirection(String newDirection){
+        direction = newDirection;
     }
 
     public Cell getCell() {
@@ -33,5 +59,17 @@ public abstract class Actor implements Drawable {
 
     public int getY() {
         return cell.getY();
+    }
+
+    public void receiveAttack(int receivedDamage){
+        changeHealth(-receivedDamage);
+        if (health<=0){
+            death();
+        }
+    }
+
+    public void death(){
+        System.out.println("DEATH");
+        getCell().setActor(null);
     }
 }
