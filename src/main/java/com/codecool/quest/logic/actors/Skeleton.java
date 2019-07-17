@@ -31,9 +31,7 @@ public class Skeleton extends Monster {
             }
         }
 
-        cell.setActor(null);
-        nextCell.setActor(this);
-        cell = nextCell;
+        changeCell(nextCell);
     }
 
     @Override

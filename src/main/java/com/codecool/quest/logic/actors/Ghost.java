@@ -43,9 +43,7 @@ public class Ghost extends Monster {
             }
         }
 
-        cell.setActor(null);
-        nextCell.setActor(this);
-        cell = nextCell;
+        changeCell(nextCell);
     }
 
     private void incrementMoveCounter() {

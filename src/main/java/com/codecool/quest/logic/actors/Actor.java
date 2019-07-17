@@ -21,9 +21,7 @@ public abstract class Actor implements Drawable, Movable {
         boolean isMoveValid = isMoveValid(nextCell);
 
         if (isMoveValid) {
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
+            changeCell(nextCell);
         }
 
     }
@@ -33,6 +31,12 @@ public abstract class Actor implements Drawable, Movable {
         boolean isNextCellActor = nextCell.getActor() != null;
 
         return !isNextCellWall && !isNextCellActor;
+    }
+
+    protected void changeCell(Cell nextCell) {
+        cell.setActor(null);
+        nextCell.setActor(this);
+        cell = nextCell;
     }
 
     public int getHealth() {
