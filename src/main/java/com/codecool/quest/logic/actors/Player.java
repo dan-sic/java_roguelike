@@ -13,7 +13,6 @@ public class Player extends Actor {
     private Item currentlyEquipped = null;
 
     public Player(Cell cell) {
-
         super(cell);
         playerInventory = new Inventory();
         this.isEnemy = false;
@@ -74,8 +73,10 @@ public class Player extends Actor {
 
             currentlyEquipped.durability -= 30;
 
-            if (currentlyEquipped.durability <= 0)
+            if (currentlyEquipped.durability <= 0) {
                 currentlyEquipped = null;
+                this.playerInventory.removeItem("sword");
+            }
         }
         else
             actor.receiveAttack(getAttackPower(),this);
@@ -90,7 +91,9 @@ public class Player extends Actor {
             }
             return message;
         }
+        return null;
     }
+
     public void setName(String name) {
         this.name = name;
     }

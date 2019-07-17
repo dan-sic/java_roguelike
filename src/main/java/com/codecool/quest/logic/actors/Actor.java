@@ -9,9 +9,9 @@ import java.util.List;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
-    private int health;
+    protected int health;
     private String[] cheatNames = {"Michał", "Piotrek", "Janek", "Olek", "Daniel"};
-    private int attackPower;
+    protected int attackPower;
     private String direction = "up";
     protected boolean isEnemy;
     private String[] text;
@@ -28,12 +28,6 @@ public abstract class Actor implements Drawable {
         List<String> cheatNamesList = Arrays.asList(cheatNames);
         String actorName = cell.getActor().getName();
 
-//        cell.setActor(null);
-//        nextCell.setActor(this);
-//        cell = nextCell;
-//        cell.setActor(null);
-//        nextCell.setActor(this);
-//        cell = nextCell;
         boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
         boolean isNextCellActor = nextCell.getActor() != null;
         boolean isNextCellDoorClosed = false;

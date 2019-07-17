@@ -12,6 +12,11 @@ public class Wizard extends Actor {
     }
 
     @Override
+    public String getName() {
+        return "Gandalf";
+    }
+
+    @Override
     public String getTileName() {
         return "wizard";
     }

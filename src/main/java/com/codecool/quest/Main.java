@@ -177,36 +177,6 @@ public class Main extends Application {
     }
 
     private void CreateUserInterfaceBottomBar(GridPane bottomPane){
-        formatUserInterface(bottomPane);
-        bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
-                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
-
-        bottomPane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
-        bottomPane.setPadding(new Insets(10));
-        bottomPane.setHgap(10);
-
-        Button pickItemButton = new Button("Pick Item");
-        formatBtn(pickItemButton);
-        pickItemButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                map.getPlayer().pickItem();
-                showInventory();
-            }
-        });
-        Button attackButton = new Button("Attack");
-        formatBtn(attackButton);
-        attackButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                map.getPlayer().interactWithActor();
-                refresh();
-            }
-        });
-
-        ui.add(pickItemButton,0,5);
-        ui.add(attackButton,1,5);
-    }
-
-    private void CreateUserInterfaceBottomBar(GridPane bottomPane){
         bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
                 BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
 
