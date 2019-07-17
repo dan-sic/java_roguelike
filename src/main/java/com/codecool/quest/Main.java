@@ -38,7 +38,6 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
 
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -46,19 +45,24 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridPane ui = new GridPane();
-        GridPane bottomPane = new GridPane();
+        ui.setPrefWidth(200);
+        ui.setPadding(new Insets(10));
 
-        CreateUserInterfaceSideBar(ui);
-        CreateUserInterfaceBottomBar(bottomPane);
+        ui.add(new Label("Health: "), 0, 0);
+        ui.add(healthLabel, 1, 0);
 
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
-        borderPane.setBottom(bottomPane);
 
-        showInventory();
-        createScene(borderPane, primaryStage);
+        Scene scene = new Scene(borderPane);
+        primaryStage.setScene(scene);
+        refresh();
+        scene.setOnKeyPressed(this::onKeyPressed);
+
+        primaryStage.setTitle("Codecool Quest");
+        primaryStage.show();
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -79,17 +83,6 @@ public class Main extends Application {
                 map.getPlayer().move(1,0);
                 refresh();
                 break;
-            case E:
-                if(map.getPlayer().pickItem()) {
-                    showInventory();
-                    break;
-                }else if(true) { //check for doors
-                    // open doors
-                }else{
-                    //attack
-                }
-                refresh();
-                break;
         }
     }
 
@@ -103,6 +96,8 @@ public class Main extends Application {
                     Tiles.drawTile(context, cell.getActor(), x, y);
                 } else if(cell.getItem() != null){
                     Tiles.drawTile(context, cell.getItem(), x, y);
+                } else if(cell.getInteractable() != null){
+                    Tiles.drawTile(context, cell.getInteractable(), x, y);
                 }
                 else {
                     Tiles.drawTile(context, cell, x, y);
@@ -111,6 +106,7 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
     }
+
 
     private void createScene(BorderPane borderPane, Stage primaryStage){
         Scene scene = new Scene(borderPane);
