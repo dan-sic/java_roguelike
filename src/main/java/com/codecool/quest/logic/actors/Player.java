@@ -5,33 +5,20 @@ import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.items.Item;
 
 public class Player extends Actor {
-    private Inventory playerInventory;
 
-    private int health = 15;
+    private Inventory playerInventory;
     private Item currentlyEquipped = null;
 
     public Player(Cell cell) {
         super(cell);
         playerInventory = new Inventory();
+        this.isEnemy = false;
+        this.health = 15;
+        this.attackPower = 5;
     }
 
     public String getTileName() {
         return "player";
-    }
-
-    public boolean pickItem(){
-        Cell cell = this.getCell();
-        if(cell.getItem() != null){
-            Item item = cell.getItem();
-            item.vanishItem();
-            playerInventory.addItem(item);
-
-            if(item.getTileName().equals("sword"))
-                changeEquippedWeapon(item);
-
-            return true;
-        }
-        return false;
     }
 
     public void changeEquippedWeapon(Item newWeapon){
@@ -49,9 +36,9 @@ public class Player extends Actor {
     public Cell getNextCell(){
         switch (getDirection()){
             case "up":
-                return getCell().getNeighbor(0,1);
-            case "down":
                 return getCell().getNeighbor(0,-1);
+            case "down":
+                return getCell().getNeighbor(0,1);
             case "left":
                 return getCell().getNeighbor(-1,0);
             case "right":
@@ -60,19 +47,45 @@ public class Player extends Actor {
         return getCell();
     }
 
-    public void attack(){
-        if(getNextCell().getActor() != null) {
-            if (currentlyEquipped != null){
-                getNextCell().getActor().printHealth("before");
-                getNextCell().getActor().receiveAttack((getAttackPower() + getEquippedWeaponAttack()));
+    public boolean pickItem(){
+        Cell cell = this.getCell();
+        if(cell.getItem() != null){
+            Item item = cell.getItem();
+            item.vanishItem();
+            playerInventory.addItem(item);
 
-                currentlyEquipped.durability -= 30;
+            if(item.getTileName().equals("sword"))
+                changeEquippedWeapon(item);
 
-                if (currentlyEquipped.durability <= 0)
-                    currentlyEquipped = null;
-            }
-            else
-                getNextCell().getActor().receiveAttack(getAttackPower());
+            return true;
         }
+        return false;
     }
+
+    private void attack(Actor actor){
+        if (currentlyEquipped != null){
+            actor.printHealth("before");
+            actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()));
+
+            currentlyEquipped.durability -= 30;
+
+            if (currentlyEquipped.durability <= 0)
+                currentlyEquipped = null;
+        }
+        else
+            actor.receiveAttack(getAttackPower());
+    }
+
+    public String interactWithActor(){
+        Actor actor = getNextCell().getActor();
+        if(actor != null) {
+            String message = actor.getNextText();
+            if(actor.isEnemy) {
+                attack(actor);
+            }
+            return message;
+        }
+        return null;
+    }
+
 }

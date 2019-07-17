@@ -6,9 +6,12 @@ import com.codecool.quest.logic.Drawable;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
-    private int health = 10;
-    private int attackPower = 5;
+    protected int health;
+    protected int attackPower;
     private String direction = "up";
+    protected boolean isEnemy;
+    private String[] text;
+    private int counter;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -73,7 +76,20 @@ public abstract class Actor implements Drawable {
     }
 
     public void death(){
-        System.out.println("DEATH");
         getCell().setActor(null);
+    }
+
+    public void setText(String[] text){
+        this.text = text;
+    }
+
+    public String getNextText(){
+        //int index = (int)(Math.random() * text.length);
+        String temp = text[counter];
+        counter++;
+        if(counter >= text.length){
+            counter = 0;
+        }
+        return temp;
     }
 }

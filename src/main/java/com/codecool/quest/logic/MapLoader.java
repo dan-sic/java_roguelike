@@ -1,6 +1,6 @@
 package com.codecool.quest.logic;
 
-import com.codecool.quest.logic.actors.Actor;
+import com.codecool.quest.logic.actors.Wizard;
 import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.Skeleton;
 import com.codecool.quest.logic.items.Sword;
@@ -41,6 +41,10 @@ public class MapLoader {
                         case '@':
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
+                            break;
+                        case 'w':
+                            cell.setType(CellType.FLOOR);
+                            new Wizard(cell);
                             break;
                         case '!':
                             cell.setType(CellType.FLOOR);

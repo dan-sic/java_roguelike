@@ -28,6 +28,7 @@ public class Main extends Application {
     private Label inventoryLabelText = new Label("Inventory:");
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
+    Label messageLabel = new Label();
 
 
     public static void main(String[] args) {
@@ -52,6 +53,7 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
+        messageLabel.setText("");
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().changeDirection("up");
@@ -75,11 +77,11 @@ public class Main extends Application {
                 break;
             case E:
                 if(map.getPlayer().pickItem()) {
-                    showInventory();
                 }else if(false) { //check for doors
                     // open doors
                 }else{
-                    map.getPlayer().attack();
+                    String message = map.getPlayer().interactWithActor();
+                    messageLabel.setText(message);
                 }
                 refresh();
                 break;
@@ -103,6 +105,7 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        showInventory();
     }
 
     private void createScene(BorderPane borderPane, Stage primaryStage){
@@ -131,15 +134,6 @@ public class Main extends Application {
         inventoryLabel.setTextFill(Color.WHITESMOKE);
         ui.add(inventoryLabelText, 0, 1);
         ui.add(inventoryLabel, 0, 2);
-    }
-
-    private void CreateUserInterfaceBottomBar(GridPane bottomPane){
-        bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
-                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
-
-        bottomPane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
-        bottomPane.setPadding(new Insets(10));
-        bottomPane.setHgap(10);
 
         Button pickItemButton = new Button("Pick Item");
         pickItemButton.setPadding(new Insets(5));
@@ -153,13 +147,26 @@ public class Main extends Application {
         attackButton.setPadding(new Insets(5));
         attackButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                map.getPlayer().attack();
+                map.getPlayer().interactWithActor();
                 refresh();
             }
         });
 
-        bottomPane.add(pickItemButton,0,0);
-        bottomPane.add(attackButton,1,0);
+        ui.add(pickItemButton,0,5);
+        ui.add(attackButton,1,5);
+    }
+
+    private void CreateUserInterfaceBottomBar(GridPane bottomPane){
+        bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
+                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
+
+        bottomPane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
+        bottomPane.setPadding(new Insets(10));
+        bottomPane.setHgap(10);
+
+        messageLabel.setTextFill(Color.WHITESMOKE);
+        bottomPane.add(messageLabel, 0, 0);
+
     }
 
     private void showInventory(){
