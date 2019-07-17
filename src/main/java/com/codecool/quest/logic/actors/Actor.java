@@ -2,13 +2,14 @@ package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
-import com.codecool.quest.logic.Drawable;
+import com.codecool.quest.logic.interfaces.Drawable;
+import com.codecool.quest.logic.interfaces.Movable;
 
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class Actor implements Drawable {
-    private Cell cell;
+public abstract class Actor implements Drawable, Movable {
+    protected Cell cell;
     protected int health;
     private String[] cheatNames = {"Michał", "Piotrek", "Janek", "Olek", "Daniel"};
     protected int attackPower;
@@ -36,18 +37,26 @@ public abstract class Actor implements Drawable {
         }
 
         if (!isNextCellWall && !isNextCellActor && !isNextCellDoorClosed) {
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
+            changeCell(nextCell);
         //checks if player name equals any name on cheatList
         }else if(cheatNamesList.contains(actorName)){
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
+            changeCell(nextCell);
         }
 
     }
 
+    protected boolean isMoveValid(Cell nextCell) {
+        boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
+        boolean isNextCellActor = nextCell.getActor() != null;
+
+        return !isNextCellWall && !isNextCellActor;
+    }
+
+    protected void changeCell(Cell nextCell) {
+        cell.setActor(null);
+        nextCell.setActor(this);
+        cell = nextCell;
+    }
     public void printHealth(String msg){
         System.out.println(health+msg);
     }

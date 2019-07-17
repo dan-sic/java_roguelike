@@ -1,7 +1,7 @@
 package com.codecool.quest.logic.interactable;
 
 import com.codecool.quest.logic.Cell;
-import com.codecool.quest.logic.Drawable;
+import com.codecool.quest.logic.interfaces.Drawable;
 
 public abstract class Interactable implements Drawable {
 

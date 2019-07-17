@@ -4,10 +4,10 @@ import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.GameMap;
 import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.MapLoader;
+import com.codecool.quest.logic.actors.Monster;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -19,6 +19,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -54,26 +56,38 @@ public class Main extends Application {
         createScene(borderPane, primaryStage);
     }
 
+    private void moveMonters() {
+        List<Monster> monsters = map.getMonsters();
+
+        for (Monster monster : monsters) {
+            monster.move();
+        }
+    }
+
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().changeDirection("up");
                 map.getPlayer().move(0, -1);
+                moveMonters();
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().changeDirection("down");
                 map.getPlayer().move(0, 1);
+                moveMonters();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().changeDirection("left");
                 map.getPlayer().move(-1, 0);
+                moveMonters();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().changeDirection("right");
                 map.getPlayer().move(1,0);
+                moveMonters();
                 refresh();
                 break;
             case E:

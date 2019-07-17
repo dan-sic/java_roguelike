@@ -1,6 +1,6 @@
 package com.codecool.quest;
 
-import com.codecool.quest.logic.Drawable;
+import com.codecool.quest.logic.interfaces.Drawable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -30,6 +30,8 @@ public class Tiles {
         tileMap.put("player", new Tile(27, 0));
         tileMap.put("wizard", new Tile(24, 1));
         tileMap.put("skeleton", new Tile(29, 6));
+        tileMap.put("ghost", new Tile(26, 6));
+        tileMap.put("golem", new Tile(30, 6));
         tileMap.put("doors", new Tile(3, 3));
         tileMap.put("doors_opened", new Tile(4, 3));
         tileMap.put("sword", new Tile(1, 30));

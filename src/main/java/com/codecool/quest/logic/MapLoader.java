@@ -1,18 +1,24 @@
 package com.codecool.quest.logic;
 
 import com.codecool.quest.logic.actors.Wizard;
+import com.codecool.quest.logic.actors.Ghost;
+import com.codecool.quest.logic.actors.Golem;
 import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.Skeleton;
 import com.codecool.quest.logic.items.Sword;
 import com.codecool.quest.logic.items.Key;
 import com.codecool.quest.logic.interactable.Doors;
-import com.codecool.quest.logic.items.Sword;
-import com.codecool.quest.logic.items.Key;
 
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
+    private static GameMap map;
+
+    public static GameMap getCurrentMap() {
+        return MapLoader.map;
+    }
+
     public static GameMap loadMap() {
         InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
         Scanner scanner = new Scanner(is);
@@ -39,7 +45,15 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.FLOOR);
-                            new Skeleton(cell);
+                            map.addMonster(new Skeleton(cell));
+                            break;
+                        case 'o':
+                            cell.setType(CellType.FLOOR);
+                            map.addMonster(new Golem(cell));
+                            break;
+                        case 'g':
+                            cell.setType(CellType.FLOOR);
+                            map.addMonster(new Ghost(cell));
                             break;
                         case '%':
                             cell.setType(CellType.DOORS);
@@ -67,6 +81,9 @@ public class MapLoader {
                 }
             }
         }
+
+        MapLoader.map = map;
+
         return map;
     }
 
