@@ -144,6 +144,7 @@ public class Main extends Application {
         attackButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 map.getPlayer().attack();
+                refresh();
             }
         });
 
