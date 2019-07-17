@@ -53,7 +53,9 @@ public class Player extends Actor {
     }
 
     public void attack(){
-        getNextCell().getActor().receiveAttack(getAttackPower());
+        if(getNextCell().getActor() != null) {
+            getNextCell().getActor().receiveAttack(getAttackPower());
+        }
     }
 
     public void printDirection(){

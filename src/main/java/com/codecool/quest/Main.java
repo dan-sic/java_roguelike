@@ -76,10 +76,11 @@ public class Main extends Application {
                 if(map.getPlayer().pickItem()) {
                     showInventory();
                     break;
-                }else if(true) { //check for doors
+                }else if(false) { //check for doors
                     // open doors
                 }else{
-                    //attack
+                    map.getPlayer().attack();
+                    refresh();
                 }
                 refresh();
                 break;
@@ -156,7 +157,8 @@ public class Main extends Application {
         attackButton.setPadding(new Insets(5));
         attackButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-
+                map.getPlayer().attack();
+                refresh();
             }
         });
 
