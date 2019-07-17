@@ -8,6 +8,7 @@ public class Player extends Actor {
     private Inventory playerInventory;
 
     private int health = 15;
+    private Item currentlyEquipped = null;
 
     public Player(Cell cell) {
         super(cell);
@@ -24,9 +25,21 @@ public class Player extends Actor {
             Item item = cell.getItem();
             item.vanishItem();
             playerInventory.addItem(item);
+
+            if(item.getTileName().equals("sword"))
+                changeEquippedWeapon(item);
+
             return true;
         }
         return false;
+    }
+
+    public void changeEquippedWeapon(Item newWeapon){
+        currentlyEquipped = newWeapon;
+    }
+
+    public int getEquippedWeaponAttack(){
+        return currentlyEquipped.attackModifier;
     }
 
     public Inventory getPlayerInventory(){
@@ -49,11 +62,17 @@ public class Player extends Actor {
 
     public void attack(){
         if(getNextCell().getActor() != null) {
-            getNextCell().getActor().receiveAttack(getAttackPower());
-        }
-    }
+            if (currentlyEquipped != null){
+                getNextCell().getActor().printHealth("before");
+                getNextCell().getActor().receiveAttack((getAttackPower() + getEquippedWeaponAttack()));
 
-    public void printDirection(){
-        System.out.println(this.getDirection());
+                currentlyEquipped.durability -= 30;
+
+                if (currentlyEquipped.durability <= 0)
+                    currentlyEquipped = null;
+            }
+            else
+                getNextCell().getActor().receiveAttack(getAttackPower());
+        }
     }
 }
