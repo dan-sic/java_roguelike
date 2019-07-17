@@ -58,4 +58,8 @@ public class Ghost extends Monster {
     public String getTileName() {
         return "ghost";
     }
+
+    public String getName(){
+        return "";
+    }
 }

@@ -5,6 +5,8 @@ import com.codecool.quest.logic.interfaces.Drawable;
 
 public abstract class Item implements Drawable {
 
+    public int attackModifier = 0;
+    public int durability = 100;
     private Cell cell;
 
     public Item(Cell cell) { //Constructor, it makes items based on arguments
@@ -12,10 +14,9 @@ public abstract class Item implements Drawable {
         this.cell.setItem(this);
     }
 
-    //
-
     public void vanishItem(){
-
+        this.cell.setItem(null);
+        this.cell = null;
     }
 }
 

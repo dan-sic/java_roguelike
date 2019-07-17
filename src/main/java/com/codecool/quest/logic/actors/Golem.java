@@ -12,11 +12,15 @@ public class Golem extends Monster {
     }
 
     public void move() {
-        System.out.println("Golem move");
+
     }
 
     @Override
     public String getTileName() {
         return "golem";
+    }
+
+    public String getName(){
+        return "";
     }
 }

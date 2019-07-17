@@ -11,6 +11,7 @@ public class Skeleton extends Monster {
 
     public Skeleton(Cell cell) {
         super(cell);
+        this.changeAttackPower(-2);
     }
 
     public void move() {
@@ -37,5 +38,9 @@ public class Skeleton extends Monster {
     @Override
     public String getTileName() {
         return "skeleton";
+    }
+
+    public String getName(){
+        return "";
     }
 }

@@ -10,11 +10,9 @@ public class Sword extends Item {
 
     public Sword(Cell cell) {
         super(cell);
+        this.attackModifier = 5;
+        this.durability = 100;
     }
-
-    private int attackModifier = +10;
-
-    private int durability = 100;
 
     // sword check durability method and delete sword method
 

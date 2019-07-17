@@ -4,6 +4,7 @@ import com.codecool.quest.logic.actors.Ghost;
 import com.codecool.quest.logic.actors.Golem;
 import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.Skeleton;
+import com.codecool.quest.logic.interactable.Doors;
 import com.codecool.quest.logic.items.Key;
 import com.codecool.quest.logic.items.Sword;
 
@@ -52,6 +53,10 @@ public class MapLoader {
                         case 'g':
                             cell.setType(CellType.FLOOR);
                             map.addMonster(new Ghost(cell));
+                            break;
+                        case '%':
+                            cell.setType(CellType.DOORS);
+                            new Doors(cell);
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
