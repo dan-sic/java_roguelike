@@ -12,7 +12,7 @@ public class Cell implements Drawable {
     private Interactable interactable;
     private int x, y;
 
-    public Cell(GameMap gameMap, int x, int y, CellType type) {
+    Cell(GameMap gameMap, int x, int y, CellType type) {
         this.gameMap = gameMap;
         this.x = x;
         this.y = y;
@@ -27,7 +27,6 @@ public class Cell implements Drawable {
         this.type = type;
     }
 
-
     public void setItem(Item item){
         this.item = item;
     }
@@ -35,7 +34,6 @@ public class Cell implements Drawable {
     public Item getItem(){
         return item;
     }
-
 
     public void setActor(Actor actor) {
         this.actor = actor;
@@ -70,7 +68,3 @@ public class Cell implements Drawable {
         return y;
     }
 }
-
-
-//                            cell.setType(CellType.FLOOR);
-//                                    new Doors(cell);

@@ -1,4 +1,5 @@
 package com.codecool.quest.logic.items;
+
 import com.codecool.quest.logic.Cell;
 
 public class Key extends Item {
@@ -6,12 +7,12 @@ public class Key extends Item {
     public Key(Cell cell) {
         super(cell);
     }
+
     @Override
     public String getTileName() {
         return "key";
     }
-
     private int attackModifier = 0;
 
-    // delete key methed after opened door
+    // delete key method after opened door
 }

@@ -27,9 +27,7 @@ public class Inventory {
 
     public void addItem(Item itemToAdd){
         inventory.add(itemToAdd);
-//        if (itemToAdd.equals("key")){
-//            Cell(3, 15).setType(CellType.DOORS_OPENED);
-//        }
+
     }
 
     public void removeItem(Item itemToRemove){

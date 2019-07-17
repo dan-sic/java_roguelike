@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 import java.util.HashMap;
 import java.util.Map;
 
-public class  Tiles {
+public class Tiles {
     public static int TILE_WIDTH = 32;
 
     private static Image tileset = new Image("/tiles.png", 543 * 2, 543 * 2, true, false);

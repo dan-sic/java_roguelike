@@ -12,10 +12,10 @@ public abstract class Item implements Drawable {
         this.cell.setItem(this);
     }
 
-    //
-
     public void vanishItem(){
         this.cell.setItem(null);
         this.cell = null;
     }
 }
+
+

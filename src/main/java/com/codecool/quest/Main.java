@@ -27,7 +27,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
@@ -38,6 +37,7 @@ public class Main extends Application {
     private Label inventoryLabelText = new Label("Inventory:");
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
+
 
     public static void main(String[] args) {
         launch(args);
@@ -52,6 +52,7 @@ public class Main extends Application {
         CreateUserInterfaceBottomBar(bottomPane);
 
         BorderPane borderPane = new BorderPane();
+
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
         borderPane.setBottom(bottomPane);
@@ -78,6 +79,17 @@ public class Main extends Application {
                 map.getPlayer().move(1,0);
                 refresh();
                 break;
+            case E:
+                if(map.getPlayer().pickItem()) {
+                    showInventory();
+                    break;
+                }else if(true) { //check for doors
+                    // open doors
+                }else{
+                    //attack
+                }
+                refresh();
+                break;
         }
     }
 
@@ -91,8 +103,6 @@ public class Main extends Application {
                     Tiles.drawTile(context, cell.getActor(), x, y);
                 } else if(cell.getItem() != null){
                     Tiles.drawTile(context, cell.getItem(), x, y);
-                } else if(cell.getInteractable() != null){
-                    Tiles.drawTile(context, cell.getInteractable(), x, y);
                 }
                 else {
                     Tiles.drawTile(context, cell, x, y);
@@ -101,7 +111,6 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
     }
-
 
     private void createScene(BorderPane borderPane, Stage primaryStage){
         Scene scene = new Scene(borderPane);
