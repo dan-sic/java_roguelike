@@ -4,10 +4,10 @@ import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.GameMap;
 import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.MapLoader;
+import com.codecool.quest.logic.actors.monsters.Monster;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,6 +20,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
@@ -30,6 +32,9 @@ public class Main extends Application {
     private Label inventoryLabelText = new Label("»»»INVENTORY«««");
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
+    Label messageLabel = new Label();
+
+    private boolean changingDirection = false;
 
     public static void main(String[] args) {
         launch(args);
@@ -52,40 +57,85 @@ public class Main extends Application {
         createScene(borderPane, primaryStage);
     }
 
+    private void moveMonters() {
+        List<Monster> monsters = map.getMonsters();
+
+        for (Monster monster : monsters) {
+            if(!monster.isDead()) monster.move();
+        }
+    }
+
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().changeDirection("up");
-                map.getPlayer().move(0, -1);
-                refresh();
+                if(changingDirection){
+                    messageLabel.setText("Attacking direction: Up");
+                }else{
+                    map.getPlayer().move(0, -1);
+                    moveMonters();
+                    messageLabel.setText("");
+                    refresh();
+                }
                 break;
             case DOWN:
                 map.getPlayer().changeDirection("down");
-                map.getPlayer().move(0, 1);
-                refresh();
+                if(changingDirection){
+                    messageLabel.setText("Attacking direction: Down");
+                }else{
+                    map.getPlayer().move(0, 1);
+                    moveMonters();
+                    messageLabel.setText("");
+                    refresh();
+                }
                 break;
             case LEFT:
                 map.getPlayer().changeDirection("left");
-                map.getPlayer().move(-1, 0);
-                refresh();
+                if(changingDirection){
+                    messageLabel.setText("Attacking direction: Left");
+                }else{
+                    map.getPlayer().move(-1, 0);
+                    moveMonters();
+                    messageLabel.setText("");
+                    refresh();
+                }
                 break;
             case RIGHT:
                 map.getPlayer().changeDirection("right");
-                map.getPlayer().move(1,0);
-                refresh();
+                if(changingDirection){
+                    messageLabel.setText("Attacking direction: Right");
+                }else {
+                    map.getPlayer().move(1, 0);
+                    moveMonters();
+                    messageLabel.setText("");
+                    refresh();
+                }
                 break;
             case E:
                 if(map.getPlayer().pickItem()) {
-
-//                    break;
+                    messageLabel.setText(String.format("Picked a %s",map.getPlayer().getLastItemPicked()));
                 }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
-                    map.getPlayer().getNextCell().getInteractable().Use();
-                    map.getPlayer().getPlayerInventory().removeItem("key");
+                    if( map.getPlayer().getPlayerInventory().checkForItem("key") ){
+                        map.getPlayer().getNextCell().getInteractable().Use();
+                        map.getPlayer().getPlayerInventory().removeItem("key");
+                        messageLabel.setText("");
+                    }
                 }else{
-                    map.getPlayer().attack();
-                    refresh();
+                    String message = map.getPlayer().talk();
+                    messageLabel.setText(message);
                 }
                 refresh();
+                break;
+            case R:
+                if(!changingDirection){
+                    changingDirection = true;
+                    messageLabel.setText("Choose attack direction and press R to attack");
+                }else{
+                    String message = map.getPlayer().attack();
+                    messageLabel.setText(message);
+                    changingDirection = false;
+                    refresh();
+                }
                 break;
         }
     }
@@ -110,6 +160,7 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        showInventory();
     }
 
 
@@ -176,25 +227,8 @@ public class Main extends Application {
         bottomPane.getStyleClass().add("ui-pane");
         bottomPane.setHgap(10);
 
-        Button pickItemButton = new Button("Pick Item");
-        pickItemButton.getStyleClass().add("btn");
-        pickItemButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                map.getPlayer().pickItem();
-                showInventory();
-            }
-        });
-        Button attackButton = new Button("Attack");
-        attackButton.getStyleClass().add("btn");
-        attackButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                map.getPlayer().attack();
-                refresh();
-            }
-        });
-
-        bottomPane.add(pickItemButton,0,0);
-        bottomPane.add(attackButton,1,0);
+        messageLabel.setTextFill(Color.WHITESMOKE);
+        bottomPane.add(messageLabel, 0, 0);
     }
 
     private void showInventory(){

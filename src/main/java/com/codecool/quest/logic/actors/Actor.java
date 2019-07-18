@@ -2,22 +2,28 @@ package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
-import com.codecool.quest.logic.Drawable;
+import com.codecool.quest.logic.interfaces.Drawable;
+import com.codecool.quest.logic.interfaces.Movable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class Actor implements Drawable {
-    private Cell cell;
-    private int health = 10;
+public abstract class Actor implements Drawable, Movable {
+    protected Cell cell;
+    protected int health;
     private String[] cheatNames = {"Michał", "Piotrek", "Janek", "Olek", "Daniel"};
-    private int attackPower = 5;
-    private String direction = "up";
+    protected int attackPower;
+    private String direction;
+    protected boolean isEnemy;
+    private boolean dead;
+    protected String[] text;
+    protected int sentenceCounter;
 
     public Actor(Cell cell) {
         this.cell = cell;
         this.cell.setActor(this);
+        this.direction = "up";
+        this.dead = false;
     }
 
     public void move(int dx, int dy) {
@@ -26,9 +32,6 @@ public abstract class Actor implements Drawable {
         List<String> cheatNamesList = Arrays.asList(cheatNames);
         String actorName = cell.getActor().getName();
 
-//        cell.setActor(null);
-//        nextCell.setActor(this);
-//        cell = nextCell;
         boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
         boolean isNextCellActor = nextCell.getActor() != null;
         boolean isNextCellDoorClosed = false;
@@ -37,24 +40,39 @@ public abstract class Actor implements Drawable {
         }
 
         if (!isNextCellWall && !isNextCellActor && !isNextCellDoorClosed) {
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
+            changeCell(nextCell);
         //checks if player name equals any name on cheatList
         }else if(cheatNamesList.contains(actorName)){
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
+            changeCell(nextCell);
         }
+
     }
 
+    protected boolean isMoveValid(Cell nextCell) {
+        boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
+        boolean isNextCellActor = nextCell.getActor() != null;
+
+        return !isNextCellWall && !isNextCellActor;
+    }
+
+    protected void changeCell(Cell nextCell) {
+        cell.setActor(null);
+        nextCell.setActor(this);
+        cell = nextCell;
+    }
     public void printHealth(String msg){
         System.out.println(health+msg);
+    }
+
+    public void changeAttackPower(int change){
+        attackPower += change;
     }
 
     public int getHealth() {
         return health;
     }
+
+    public boolean isDead(){ return dead; }
 
     public void changeHealth(int change){
         health += change;
@@ -84,17 +102,53 @@ public abstract class Actor implements Drawable {
         return cell.getY();
     }
 
+    public Cell getNextCell(){
+        switch (getDirection()){
+            case "down":
+                return getCell().getNeighbor(0,1);
+            case "up":
+                return getCell().getNeighbor(0,-1);
+            case "left":
+                return getCell().getNeighbor(-1,0);
+            case "right":
+                return getCell().getNeighbor(1,0);
+        }
+        return getCell();
+    }
+
     public abstract String getName();
 
-    public void receiveAttack(int receivedDamage){
+    public void receiveAttack(int receivedDamage, Actor player){
         changeHealth(-receivedDamage);
         if (health<=0){
             death();
+        } else{
+            if( player != null)
+                this.attackPlayer(player);
         }
     }
 
+    public void attackPlayer(Actor player){
+        player.receiveAttack(getAttackPower(),null);
+    }
+
     public void death(){
-        System.out.println("DEATH");
         getCell().setActor(null);
+        cell = null;
+        dead = true;
+    }
+
+    public void setText(String[] text){
+        this.text = text;
+    }
+
+    public String getNextText(){
+        //int index = (int)(Math.random() * text.length);
+        String temp = text[sentenceCounter];
+        sentenceCounter++;
+        if(sentenceCounter >= text.length){
+            sentenceCounter = 0;
+        }
+        return temp;
     }
 }

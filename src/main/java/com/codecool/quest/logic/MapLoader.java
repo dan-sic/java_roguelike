@@ -1,18 +1,25 @@
 package com.codecool.quest.logic;
 
-import com.codecool.quest.logic.actors.Actor;
+import com.codecool.quest.logic.actors.NPC;
+import com.codecool.quest.logic.actors.NPCType;
+import com.codecool.quest.logic.actors.monsters.Ghost;
+import com.codecool.quest.logic.actors.monsters.Golem;
 import com.codecool.quest.logic.actors.Player;
-import com.codecool.quest.logic.actors.Skeleton;
+import com.codecool.quest.logic.actors.monsters.Skeleton;
 import com.codecool.quest.logic.items.Sword;
 import com.codecool.quest.logic.items.Key;
 import com.codecool.quest.logic.interactable.Doors;
-import com.codecool.quest.logic.items.Sword;
-import com.codecool.quest.logic.items.Key;
 
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
+    private static GameMap map;
+
+    public static GameMap getCurrentMap() {
+        return MapLoader.map;
+    }
+
     public static GameMap loadMap() {
         InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
         Scanner scanner = new Scanner(is);
@@ -39,7 +46,15 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.FLOOR);
-                            new Skeleton(cell);
+                            map.addMonster(new Skeleton(cell));
+                            break;
+                        case 'o':
+                            cell.setType(CellType.FLOOR);
+                            map.addMonster(new Golem(cell));
+                            break;
+                        case 'g':
+                            cell.setType(CellType.FLOOR);
+                            map.addMonster(new Ghost(cell));
                             break;
                         case '%':
                             cell.setType(CellType.DOORS);
@@ -48,6 +63,14 @@ public class MapLoader {
                         case '@':
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
+                            break;
+                        case 'W':
+                            cell.setType(CellType.FLOOR);
+                            new NPC(cell, NPCType.WIZARD);
+                            break;
+                        case 'G':
+                            cell.setType(CellType.FLOOR);
+                            new NPC(cell, NPCType.GUARD);
                             break;
                         case '!':
                             cell.setType(CellType.FLOOR);
@@ -63,6 +86,9 @@ public class MapLoader {
                 }
             }
         }
+
+        MapLoader.map = map;
+
         return map;
     }
 

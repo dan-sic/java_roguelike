@@ -10,33 +10,19 @@ public class Player extends Actor {
     private Inventory playerInventory;
     private String name;
 
-    private int health = 15;
     private Item currentlyEquipped = null;
 
     public Player(Cell cell) {
-
         super(cell);
         playerInventory = new Inventory();
+        this.isEnemy = false;
+        this.health = 15;
+        this.attackPower = 5;
     }
 
     public String getTileName() {
 
         return "player";
-    }
-
-    public boolean pickItem(){
-        Cell cell = this.getCell();
-        if(cell.getItem() != null){
-            Item item = cell.getItem();
-            item.vanishItem();
-            playerInventory.addItem(item);
-
-            if(item.getTileName().equals("sword"))
-                changeEquippedWeapon(item);
-
-            return true;
-        }
-        return false;
     }
 
     public void changeEquippedWeapon(Item newWeapon){
@@ -54,9 +40,9 @@ public class Player extends Actor {
     public Cell getNextCell(){
         switch (getDirection()){
             case "up":
-                return getCell().getNeighbor(0,1);
-            case "down":
                 return getCell().getNeighbor(0,-1);
+            case "down":
+                return getCell().getNeighbor(0,1);
             case "left":
                 return getCell().getNeighbor(-1,0);
             case "right":
@@ -65,21 +51,66 @@ public class Player extends Actor {
         return getCell();
     }
 
-    public void attack(){
-        if(getNextCell().getActor() != null) {
-            if (currentlyEquipped != null){
-                getNextCell().getActor().printHealth("before");
-                getNextCell().getActor().receiveAttack((getAttackPower() + getEquippedWeaponAttack()));
+    public boolean pickItem(){
+        Cell cell = this.getCell();
+        if(cell.getItem() != null){
+            Item item = cell.getItem();
+            item.vanishItem();
+            playerInventory.addItem(item);
 
-                currentlyEquipped.durability -= 30;
+            if(item.getTileName().equals("sword"))
+                changeEquippedWeapon(item);
 
-                if (currentlyEquipped.durability <= 0)
-                    currentlyEquipped = null;
-            }
-            else
-                getNextCell().getActor().receiveAttack(getAttackPower());
+            return true;
         }
+        return false;
     }
+
+    public String getLastItemPicked(){
+        return playerInventory.getLastItem().getTileName();
+    }
+
+    private void attack(Actor actor){
+        if (currentlyEquipped != null){
+            //actor.printHealth("before");
+            actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()),this);
+
+            currentlyEquipped.durability -= 30;
+
+            if (currentlyEquipped.durability <= 0) {
+                currentlyEquipped = null;
+                this.playerInventory.removeItem("sword");
+            }
+        }
+        else
+            actor.receiveAttack(getAttackPower(),this);
+    }
+
+    public String talk(){
+        Actor actor = getNextCell().getActor();
+        if(actor != null) {
+            String message = actor.getNextText();
+            if(actor.isEnemy) {
+                return String.format("%s doesn't want to talk with you.", actor.getTileName().toUpperCase());
+            }
+            return message;
+        }
+        return null;
+    }
+
+    public String attack(){
+        Actor actor = getNextCell().getActor();
+        if(actor != null) {
+            String message = actor.getNextText();
+            if(actor.isEnemy) {
+                attack(actor);
+                return message;
+            }
+            return "Don't do that!";
+        }
+        return null;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
