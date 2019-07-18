@@ -115,6 +115,8 @@ public class Main extends Application {
 
     private void createScene(BorderPane borderPane, Stage primaryStage){
         Scene scene = new Scene(borderPane);
+        scene.getStylesheets().add("style.css");
+
         primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -125,7 +127,7 @@ public class Main extends Application {
 
     private void CreateUserInterfaceSideBar(GridPane ui){
         createNameField(ui);
-        formatUserInterface(ui);
+        ui.getStyleClass().add("ui-pane");
 
         healthLabelText.setTextFill(Color.INDIANRED);
         healthLabel.setTextFill(Color.WHITESMOKE);
@@ -146,44 +148,36 @@ public class Main extends Application {
         label1.setTextFill(Color.INDIANRED);
         TextField textField = new TextField ();
         textField.setText("Wojo69");
-        map.getPlayer().setName(textField.getText());
+        map.getPlayer().setName(textField.getText()); //set name as default
         textField.setFocusTraversable(false);
-        textField.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-        textField.setBorder(new Border(new BorderStroke(Color.GREY,
-                BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
+        textField.getStyleClass().add("name-field");
+
 
 
         Button submit = new Button("«");
-        formatBtn(submit);
+        submit.getStyleClass().add("btn");
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 String name = textField.getText();
                 map.getPlayer().setName(name);
             }
         });
+
         ui.add(label1, 0, 0);
         ui.add(textField, 0, 2);
         ui.add(submit, 1, 2);
     }
 
     private void formatBtn(Button btn){
-        btn.setPadding(new Insets(5));
-        btn.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-        btn.setBorder(new Border(new BorderStroke(Color.GREY,
-                BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(3))));
+        btn.getStyleClass().add("btn");
     }
 
     private void CreateUserInterfaceBottomBar(GridPane bottomPane){
-        formatUserInterface(bottomPane);
-        bottomPane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
-                BorderStrokeStyle.SOLID, new CornerRadii(2), new BorderWidths(8))));
-
-        bottomPane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
-        bottomPane.setPadding(new Insets(10));
+        bottomPane.getStyleClass().add("ui-pane");
         bottomPane.setHgap(10);
 
         Button pickItemButton = new Button("Pick Item");
-        formatBtn(pickItemButton);
+        pickItemButton.getStyleClass().add("btn");
         pickItemButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 map.getPlayer().pickItem();
@@ -191,7 +185,7 @@ public class Main extends Application {
             }
         });
         Button attackButton = new Button("Attack");
-        formatBtn(attackButton);
+        attackButton.getStyleClass().add("btn");
         attackButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 map.getPlayer().attack();
@@ -201,19 +195,6 @@ public class Main extends Application {
 
         bottomPane.add(pickItemButton,0,0);
         bottomPane.add(attackButton,1,0);
-    }
-
-    /**
-     * formats border around user interface parts
-     * formats background color too
-     * @param pane
-     */
-    private void formatUserInterface(GridPane pane){
-        pane.setBorder(new Border(new BorderStroke(Color.SANDYBROWN,
-                BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(8))));
-        pane.setPrefWidth(200);
-        pane.setBackground(new Background(new BackgroundFill(Color.rgb(89, 58, 68), CornerRadii.EMPTY, Insets.EMPTY)));
-        pane.setPadding(new Insets(10));
     }
 
     private void showInventory(){
