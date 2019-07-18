@@ -1,11 +1,10 @@
 package com.codecool.quest.logic.interactable;
 
 import com.codecool.quest.logic.Cell;
-import com.codecool.quest.logic.CellType;
-import com.codecool.quest.logic.items.Item;
 
-public class Doors extends Interactable {
-    public Doors(Cell cell) {
+public class Chest extends Interactable {
+
+    public Chest(Cell cell) {
         super(cell);
     }
 
@@ -18,21 +17,21 @@ public class Doors extends Interactable {
 
     @Override
     public boolean isPassable() {
-        return opened;
+        return false;
     }
 
     @Override
     public boolean needsKey() {
-        return true;
+        return false;
     }
 
     @Override
     public String getTileName() {
         if(!opened) {
-            return "doors";
+            return "chest_closed";
         } else {
 
-            return "doors_opened";
+            return "chest_opened";
         }
 
     }

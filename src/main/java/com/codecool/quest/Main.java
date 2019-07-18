@@ -66,7 +66,7 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
-
+        if(map.getPlayer().getHealth() > 0)
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().changeDirection("up");
@@ -115,7 +115,8 @@ public class Main extends Application {
             case E:
                 if(map.getPlayer().pickItem()) {
                     messageLabel.setText(String.format("Picked a %s",map.getPlayer().getLastItemPicked()));
-                }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
+                }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors/chests
+
                     if( map.getPlayer().getPlayerInventory().checkForItem("key") ){
                         map.getPlayer().getNextCell().getInteractable().Use();
                         map.getPlayer().getPlayerInventory().removeItem("key");
@@ -162,6 +163,9 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
         showInventory();
+        if(map.getPlayer().getHealth() <= 0){
+            messageLabel.setText("YOU ARE DEAD!!");
+        }
     }
 
 

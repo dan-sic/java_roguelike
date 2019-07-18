@@ -14,6 +14,7 @@ public abstract class Interactable implements Drawable {
 
     public abstract void Use();
     public abstract boolean isPassable();
+    public abstract boolean needsKey();
 
 
 //    public void openDoor(){
