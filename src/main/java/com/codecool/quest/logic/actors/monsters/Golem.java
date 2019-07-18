@@ -6,10 +6,10 @@ public class Golem extends Monster {
 
     public Golem(Cell cell) {
         super(cell);
-        this.health = 15;
-        this.attackPower = 3;
+        this.health = 30;
+        this.attackPower = 5;
         this.isEnemy = true;
-        setText(new String[]{"Urgh!","Please don't","I have a wife and family!"});
+        setText(new String[]{"*Badum*","Please don't","I have a wife and family!"});
     }
 
     private int upCounter = 3;

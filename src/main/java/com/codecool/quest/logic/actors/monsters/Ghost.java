@@ -15,7 +15,7 @@ public class Ghost extends Monster {
         this.health = 8;
         this.attackPower = 2;
         this.isEnemy = true;
-        setText(new String[]{"Urgh!","Please don't","I have a wife and family!"});
+        setText(new String[]{"*Puff*","Please don't","I have a wife and family!"});
     }
 
     public void move() {

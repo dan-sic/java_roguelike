@@ -10,7 +10,7 @@ public class Skeleton extends Monster {
         this.isEnemy = true;
         this.health = 10;
         this.attackPower = 5;
-        setText(new String[]{"Urgh!","Please don't","I have a wife and family!"});
+        setText(new String[]{"*Kling*","Please don't","I have a wife and family!"});
     }
 
     public void move() {
