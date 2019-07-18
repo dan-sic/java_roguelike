@@ -5,6 +5,7 @@ import com.codecool.quest.logic.GameMap;
 import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.MapLoader;
 import com.codecool.quest.logic.actors.monsters.Monster;
+import com.codecool.quest.logic.items.Item;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,7 +58,7 @@ public class Main extends Application {
         createScene(borderPane, primaryStage);
     }
 
-    private void moveMonters() {
+    private void moveMonsters() {
         List<Monster> monsters = map.getMonsters();
 
         for (Monster monster : monsters) {
@@ -66,6 +67,7 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
+        if(map.getPlayer().getHealth() > 0)
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().changeDirection("up");
@@ -73,7 +75,7 @@ public class Main extends Application {
                     messageLabel.setText("Attacking direction: Up");
                 }else{
                     map.getPlayer().move(0, -1);
-                    moveMonters();
+                    //moveMonsters();
                     messageLabel.setText("");
                     refresh();
                 }
@@ -84,7 +86,7 @@ public class Main extends Application {
                     messageLabel.setText("Attacking direction: Down");
                 }else{
                     map.getPlayer().move(0, 1);
-                    moveMonters();
+                    //moveMonsters();
                     messageLabel.setText("");
                     refresh();
                 }
@@ -95,7 +97,7 @@ public class Main extends Application {
                     messageLabel.setText("Attacking direction: Left");
                 }else{
                     map.getPlayer().move(-1, 0);
-                    moveMonters();
+                    //moveMonsters();
                     messageLabel.setText("");
                     refresh();
                 }
@@ -106,19 +108,30 @@ public class Main extends Application {
                     messageLabel.setText("Attacking direction: Right");
                 }else {
                     map.getPlayer().move(1, 0);
-                    moveMonters();
+                    //moveMonsters();
                     messageLabel.setText("");
                     refresh();
                 }
                 break;
             case E:
                 if(map.getPlayer().pickItem()) {
-                    messageLabel.setText(String.format("Picked a %s",map.getPlayer().getLastItemPicked()));
-                }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
-                    if( map.getPlayer().getPlayerInventory().checkForItem("key") ){
+                    messageLabel.setText(String.format("Picked a %s",map.getPlayer().getPlayerInventory().getLastItem()));
+                }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors/chests
+                    if(map.getPlayer().getNextCell().getInteractable().needsKey()) {
+                        if (map.getPlayer().getPlayerInventory().checkForItem("key")) {
+                            map.getPlayer().getNextCell().getInteractable().Use();
+                            map.getPlayer().getPlayerInventory().removeItem("key");
+                            messageLabel.setText("");
+                        }
+                    }else{
                         map.getPlayer().getNextCell().getInteractable().Use();
-                        map.getPlayer().getPlayerInventory().removeItem("key");
-                        messageLabel.setText("");
+                        Item found = map.getPlayer().getNextCell().getInteractable().searchForItems();
+                        if(found != null) {
+                            map.getPlayer().getPlayerInventory().addItem(found);
+                            messageLabel.setText(String.format("Found a %s", found));
+                        }else{
+                            messageLabel.setText("Found nothing.");
+                        }
                     }
                 }else{
                     String message = map.getPlayer().talk();
@@ -141,6 +154,7 @@ public class Main extends Application {
     }
 
     private void refresh() {
+        moveMonsters();
         showInventory();
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -161,6 +175,9 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
         showInventory();
+        if(map.getPlayer().getHealth() <= 0){
+            messageLabel.setText("YOU ARE DEAD!!");
+        }
     }
 
 

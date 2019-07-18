@@ -1,17 +1,16 @@
 package com.codecool.quest.logic;
 
 import com.codecool.quest.logic.items.Item;
-
 import java.util.ArrayList;
 
 public class Inventory {
 
     private ArrayList<Item> inventory = new ArrayList<>();
 
-
     public Inventory(){
     }
 
+    @Override
     public String toString(){
         StringBuilder itemsSB = new StringBuilder();
         if(!(inventory.size() == 0)){
@@ -27,7 +26,7 @@ public class Inventory {
     }
 
     public void addItem(Item itemToAdd){
-        inventory.add(itemToAdd);
+        if(itemToAdd != null) inventory.add(itemToAdd);
     }
 
     public void removeItem(Item itemToRemove){
