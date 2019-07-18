@@ -4,7 +4,6 @@ import com.codecool.quest.logic.Cell;
 
 public class Golem extends Monster {
 
-
     public Golem(Cell cell) {
         super(cell);
         this.health = 15;
@@ -24,5 +23,10 @@ public class Golem extends Monster {
 
     public String getName(){
         return "";
+    }
+
+    @Override
+    public String toString() {
+        return "GOLEM";
     }
 }

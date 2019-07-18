@@ -1,11 +1,9 @@
 package com.codecool.quest.logic.actors.monsters;
 
 import com.codecool.quest.logic.Cell;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Skeleton extends Monster {
-
 
     public Skeleton(Cell cell) {
         super(cell);
@@ -43,5 +41,10 @@ public class Skeleton extends Monster {
 
     public String getName(){
         return "";
+    }
+
+    @Override
+    public String toString() {
+        return "SKELETON";
     }
 }

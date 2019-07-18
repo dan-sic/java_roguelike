@@ -23,7 +23,7 @@ public class Ghost extends Monster {
         incrementMoveCounter();
 
         if (moveCounter < 5) return;
-//
+
         boolean isValidCoords = false;
         Cell nextCell = null;
 
@@ -63,5 +63,10 @@ public class Ghost extends Monster {
 
     public String getName(){
         return "";
+    }
+
+    @Override
+    public String toString(){
+        return "GHOST";
     }
 }

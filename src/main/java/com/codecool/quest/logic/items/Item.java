@@ -11,7 +11,7 @@ public abstract class Item implements Drawable {
 
     public Item(Cell cell) { //Constructor, it makes items based on arguments
         this.cell = cell;
-        this.cell.setItem(this);
+        if(cell != null) this.cell.setItem(this);
     }
 
     public void vanishItem(){
