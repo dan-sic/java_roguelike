@@ -1,10 +1,11 @@
 package com.codecool.quest.logic;
 
-import com.codecool.quest.logic.actors.Wizard;
-import com.codecool.quest.logic.actors.Ghost;
-import com.codecool.quest.logic.actors.Golem;
+import com.codecool.quest.logic.actors.NPC;
+import com.codecool.quest.logic.actors.NPCType;
+import com.codecool.quest.logic.actors.monsters.Ghost;
+import com.codecool.quest.logic.actors.monsters.Golem;
 import com.codecool.quest.logic.actors.Player;
-import com.codecool.quest.logic.actors.Skeleton;
+import com.codecool.quest.logic.actors.monsters.Skeleton;
 import com.codecool.quest.logic.items.Sword;
 import com.codecool.quest.logic.items.Key;
 import com.codecool.quest.logic.interactable.Doors;
@@ -63,9 +64,13 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
                             break;
-                        case 'w':
+                        case 'W':
                             cell.setType(CellType.FLOOR);
-                            new Wizard(cell);
+                            new NPC(cell, NPCType.WIZARD);
+                            break;
+                        case 'G':
+                            cell.setType(CellType.FLOOR);
+                            new NPC(cell, NPCType.GUARD);
                             break;
                         case '!':
                             cell.setType(CellType.FLOOR);

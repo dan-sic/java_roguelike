@@ -2,24 +2,27 @@ package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
 
-public class Wizard extends Actor {
+public class NPC extends Actor {
 
-    public Wizard(Cell cell) {
+    private String npcType;
+
+    public NPC(Cell cell, NPCType npc) {
         super(cell);
         this.isEnemy = false;
         this.health = 20;
-        this.setText(new String[]{"Hello Adventurer!", "Please don't do that!", "Well I never!"});
+        this.setText(npc.getNpcText());
+        npcType = npc.getTileName();
     }
 
     @Override
     public String getName() {
-        return "Gandalf";
+        return null;
     }
 
     @Override
     public String getTileName() {
-        return "wizard";
+        return npcType;
     }
 
-
 }
+

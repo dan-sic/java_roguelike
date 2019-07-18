@@ -13,14 +13,17 @@ public abstract class Actor implements Drawable, Movable {
     protected int health;
     private String[] cheatNames = {"Michał", "Piotrek", "Janek", "Olek", "Daniel"};
     protected int attackPower;
-    private String direction = "up";
+    private String direction;
     protected boolean isEnemy;
-    private String[] text;
-    private int counter;
+    private boolean dead;
+    protected String[] text;
+    protected int sentenceCounter;
 
     public Actor(Cell cell) {
         this.cell = cell;
         this.cell.setActor(this);
+        this.direction = "up";
+        this.dead = false;
     }
 
     public void move(int dx, int dy) {
@@ -68,6 +71,8 @@ public abstract class Actor implements Drawable, Movable {
     public int getHealth() {
         return health;
     }
+
+    public boolean isDead(){ return dead; }
 
     public void changeHealth(int change){
         health += change;
@@ -129,6 +134,8 @@ public abstract class Actor implements Drawable, Movable {
 
     public void death(){
         getCell().setActor(null);
+        cell = null;
+        dead = true;
     }
 
     public void setText(String[] text){
@@ -137,10 +144,10 @@ public abstract class Actor implements Drawable, Movable {
 
     public String getNextText(){
         //int index = (int)(Math.random() * text.length);
-        String temp = text[counter];
-        counter++;
-        if(counter >= text.length){
-            counter = 0;
+        String temp = text[sentenceCounter];
+        sentenceCounter++;
+        if(sentenceCounter >= text.length){
+            sentenceCounter = 0;
         }
         return temp;
     }

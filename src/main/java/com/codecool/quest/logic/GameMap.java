@@ -1,6 +1,6 @@
 package com.codecool.quest.logic;
 
-import com.codecool.quest.logic.actors.Monster;
+import com.codecool.quest.logic.actors.monsters.Monster;
 import com.codecool.quest.logic.actors.Player;
 
 import java.util.ArrayList;

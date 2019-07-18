@@ -43,6 +43,10 @@ public class Inventory {
         }
     }
 
+    public Item getLastItem(){
+        return inventory.get(inventory.size()-1);
+    }
+
     public Boolean checkForItem(String itemName){
         Boolean isItem = false;
         for (int i=0; i<inventory.size();i++) {

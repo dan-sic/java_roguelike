@@ -66,6 +66,10 @@ public class Player extends Actor {
         return false;
     }
 
+    public String getLastItemPicked(){
+        return playerInventory.getLastItem().getTileName();
+    }
+
     private void attack(Actor actor){
         if (currentlyEquipped != null){
             //actor.printHealth("before");
@@ -82,14 +86,27 @@ public class Player extends Actor {
             actor.receiveAttack(getAttackPower(),this);
     }
 
-    public String interactWithActor(){
+    public String talk(){
+        Actor actor = getNextCell().getActor();
+        if(actor != null) {
+            String message = actor.getNextText();
+            if(actor.isEnemy) {
+                return String.format("%s doesn't want to talk with you.", actor.getTileName().toUpperCase());
+            }
+            return message;
+        }
+        return null;
+    }
+
+    public String attack(){
         Actor actor = getNextCell().getActor();
         if(actor != null) {
             String message = actor.getNextText();
             if(actor.isEnemy) {
                 attack(actor);
+                return message;
             }
-            return message;
+            return "Don't do that!";
         }
         return null;
     }
