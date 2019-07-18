@@ -1,4 +1,4 @@
-package com.codecool.quest.logic.actors;
+package com.codecool.quest.logic.actors.monsters;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
@@ -8,12 +8,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Ghost extends Monster {
 
-    private int health = 8;
-    private int attack = 2;
     private int moveCounter = 0;
 
     public Ghost(Cell cell) {
         super(cell);
+        this.health = 8;
+        this.attackPower = 2;
+        this.isEnemy = true;
+        setText(new String[]{"Urgh!","Please don't","I have a wife and family!"});
     }
 
     public void move() {

@@ -66,6 +66,10 @@ public class Player extends Actor {
         return false;
     }
 
+    public String getLastItemPicked(){
+        return playerInventory.getLastItem().getTileName();
+    }
+
     private void attack(Actor actor){
         if (currentlyEquipped != null){
             //actor.printHealth("before");

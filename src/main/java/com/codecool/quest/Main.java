@@ -4,7 +4,7 @@ import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.GameMap;
 import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.MapLoader;
-import com.codecool.quest.logic.actors.Monster;
+import com.codecool.quest.logic.actors.monsters.Monster;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,6 +33,7 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
     Label messageLabel = new Label();
+    Label directionLabel = new Label();
 
 
     public static void main(String[] args) {
@@ -60,7 +61,7 @@ public class Main extends Application {
         List<Monster> monsters = map.getMonsters();
 
         for (Monster monster : monsters) {
-            monster.move();
+            if(!monster.isDead()) monster.move();
         }
     }
 
@@ -70,32 +71,42 @@ public class Main extends Application {
                 map.getPlayer().changeDirection("up");
                 map.getPlayer().move(0, -1);
                 moveMonters();
+                messageLabel.setText("");
+                directionLabel.setText(map.getPlayer().getDirection());
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().changeDirection("down");
                 map.getPlayer().move(0, 1);
                 moveMonters();
+                messageLabel.setText("");
+                directionLabel.setText(map.getPlayer().getDirection());
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().changeDirection("left");
                 map.getPlayer().move(-1, 0);
                 moveMonters();
+                messageLabel.setText("");
+                directionLabel.setText(map.getPlayer().getDirection());
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().changeDirection("right");
                 map.getPlayer().move(1,0);
                 moveMonters();
+                messageLabel.setText("");
+                directionLabel.setText(map.getPlayer().getDirection());
                 refresh();
                 break;
             case E:
                 if(map.getPlayer().pickItem()) {
+                    messageLabel.setText(String.format("Picked a %s",map.getPlayer().getLastItemPicked()));
                 }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors
                     if( map.getPlayer().getPlayerInventory().checkForItem("key") ){
                         map.getPlayer().getNextCell().getInteractable().Use();
                         map.getPlayer().getPlayerInventory().removeItem("key");
+                        messageLabel.setText("");
                     }
                 }else{
                     String message = map.getPlayer().interactWithActor();
@@ -156,6 +167,10 @@ public class Main extends Application {
         Label lab = new Label("»»»»»»»»-«««««««");
         lab.setTextFill(Color.INDIANRED);
         ui.add(lab, 0, 20);
+
+        directionLabel.setTextFill(Color.WHITESMOKE);
+        directionLabel.setText(map.getPlayer().getDirection());
+        ui.add(directionLabel,0,22);
     }
 
     private void createNameField(GridPane ui) {

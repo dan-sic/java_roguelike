@@ -1,4 +1,4 @@
-package com.codecool.quest.logic.actors;
+package com.codecool.quest.logic.actors.monsters;
 
 import com.codecool.quest.logic.Cell;
 
@@ -6,8 +6,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Skeleton extends Monster {
 
-    private int health = 6;
-    private int attack = 1;
 
     public Skeleton(Cell cell) {
         super(cell);
