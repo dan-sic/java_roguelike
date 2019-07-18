@@ -12,7 +12,20 @@ public class Golem extends Monster {
         setText(new String[]{"Urgh!","Please don't","I have a wife and family!"});
     }
 
+    private int upCounter = 3;
+
     public void move() {
+        Cell nextCell;
+
+        if(upCounter > 0) {
+            nextCell = cell.getNeighbor(0, -1);
+            upCounter--;
+        }else{
+            nextCell = cell.getNeighbor(-1,0);
+        }
+        if (isMoveValid(nextCell)) {
+            changeCell(nextCell);
+        }
 
     }
 
