@@ -34,3 +34,13 @@
 {
     -fx-background-color: #dadada;
 }
+
+.top-ui-pane
+{
+    /*-fx-border-color: #f4a460;*/
+    /*-fx-border-style: solid;*/
+    /*-fx-border-width: 8px;*/
+    -fx-background-color: #593A44;
+    -fx-width: 840px;
+    -fx-padding: 10px;
+}
