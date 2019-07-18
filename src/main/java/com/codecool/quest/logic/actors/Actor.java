@@ -16,8 +16,8 @@ public abstract class Actor implements Drawable, Movable {
     private String direction;
     protected boolean isEnemy;
     private boolean dead;
-    private String[] text;
-    private int counter;
+    protected String[] text;
+    protected int sentenceCounter;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -144,10 +144,10 @@ public abstract class Actor implements Drawable, Movable {
 
     public String getNextText(){
         //int index = (int)(Math.random() * text.length);
-        String temp = text[counter];
-        counter++;
-        if(counter >= text.length){
-            counter = 0;
+        String temp = text[sentenceCounter];
+        sentenceCounter++;
+        if(sentenceCounter >= text.length){
+            sentenceCounter = 0;
         }
         return temp;
     }

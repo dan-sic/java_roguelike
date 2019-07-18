@@ -33,8 +33,8 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
     Label messageLabel = new Label();
-    Label directionLabel = new Label();
 
+    private boolean changingDirection = false;
 
     public static void main(String[] args) {
         launch(args);
@@ -66,38 +66,51 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
+
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().changeDirection("up");
-                map.getPlayer().move(0, -1);
-                moveMonters();
-                messageLabel.setText("");
-                directionLabel.setText(map.getPlayer().getDirection());
-                refresh();
+                if(changingDirection){
+                    messageLabel.setText("Attacking direction: Up");
+                }else{
+                    map.getPlayer().move(0, -1);
+                    moveMonters();
+                    messageLabel.setText("");
+                    refresh();
+                }
                 break;
             case DOWN:
                 map.getPlayer().changeDirection("down");
-                map.getPlayer().move(0, 1);
-                moveMonters();
-                messageLabel.setText("");
-                directionLabel.setText(map.getPlayer().getDirection());
-                refresh();
+                if(changingDirection){
+                    messageLabel.setText("Attacking direction: Down");
+                }else{
+                    map.getPlayer().move(0, 1);
+                    moveMonters();
+                    messageLabel.setText("");
+                    refresh();
+                }
                 break;
             case LEFT:
                 map.getPlayer().changeDirection("left");
-                map.getPlayer().move(-1, 0);
-                moveMonters();
-                messageLabel.setText("");
-                directionLabel.setText(map.getPlayer().getDirection());
-                refresh();
+                if(changingDirection){
+                    messageLabel.setText("Attacking direction: Left");
+                }else{
+                    map.getPlayer().move(-1, 0);
+                    moveMonters();
+                    messageLabel.setText("");
+                    refresh();
+                }
                 break;
             case RIGHT:
                 map.getPlayer().changeDirection("right");
-                map.getPlayer().move(1,0);
-                moveMonters();
-                messageLabel.setText("");
-                directionLabel.setText(map.getPlayer().getDirection());
-                refresh();
+                if(changingDirection){
+                    messageLabel.setText("Attacking direction: Right");
+                }else {
+                    map.getPlayer().move(1, 0);
+                    moveMonters();
+                    messageLabel.setText("");
+                    refresh();
+                }
                 break;
             case E:
                 if(map.getPlayer().pickItem()) {
@@ -109,10 +122,21 @@ public class Main extends Application {
                         messageLabel.setText("");
                     }
                 }else{
-                    String message = map.getPlayer().interactWithActor();
+                    String message = map.getPlayer().talk();
                     messageLabel.setText(message);
                 }
                 refresh();
+                break;
+            case R:
+                if(!changingDirection){
+                    changingDirection = true;
+                    messageLabel.setText("Choose attack direction and press R to attack");
+                }else{
+                    String message = map.getPlayer().attack();
+                    messageLabel.setText(message);
+                    changingDirection = false;
+                    refresh();
+                }
                 break;
         }
     }
@@ -167,10 +191,6 @@ public class Main extends Application {
         Label lab = new Label("»»»»»»»»-«««««««");
         lab.setTextFill(Color.INDIANRED);
         ui.add(lab, 0, 20);
-
-        directionLabel.setTextFill(Color.WHITESMOKE);
-        directionLabel.setText(map.getPlayer().getDirection());
-        ui.add(directionLabel,0,22);
     }
 
     private void createNameField(GridPane ui) {
