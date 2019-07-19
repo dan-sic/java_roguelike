@@ -3,6 +3,7 @@ package com.codecool.quest.logic.actors;
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
 import com.codecool.quest.logic.UserInterface;
+import com.codecool.quest.logic.interactable.Interactable;
 import com.codecool.quest.logic.interfaces.Drawable;
 import com.codecool.quest.logic.interfaces.Movable;
 
@@ -53,7 +54,14 @@ public abstract class Actor implements Drawable, Movable {
         boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
         boolean isNextCellActor = nextCell.getActor() != null;
 
-        return !isNextCellWall && !isNextCellActor;
+        boolean canMoveThrough = true;
+        if(nextCell.getInteractable() != null){
+            if(!nextCell.getInteractable().isPassable()){
+                canMoveThrough = false;
+            }
+        }
+
+        return !isNextCellWall && !isNextCellActor && canMoveThrough;
     }
 
     protected void changeCell(Cell nextCell) {

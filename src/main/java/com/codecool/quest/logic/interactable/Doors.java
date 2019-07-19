@@ -3,7 +3,6 @@ package com.codecool.quest.logic.interactable;
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
 import com.codecool.quest.logic.items.Item;
-//import com.codecool.quest.logic.items;
 
 public class Doors extends Interactable {
     public Doors(Cell cell) {
@@ -12,10 +11,9 @@ public class Doors extends Interactable {
 
     boolean opened = false;
 
+    @Override
     public void Use() {
-
         opened = true;
-
     }
 
     @Override
@@ -24,9 +22,13 @@ public class Doors extends Interactable {
     }
 
     @Override
+    public boolean needsKey() {
+        return true;
+    }
+
+    @Override
     public String getTileName() {
         if(!opened) {
-
             return "doors";
         } else {
 

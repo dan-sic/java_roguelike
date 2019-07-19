@@ -15,7 +15,7 @@ public class Ghost extends Monster {
         this.health = 8;
         this.attackPower = 2;
         this.isEnemy = true;
-        setText(new String[]{"Urgh!","Please don't","I have a wife and family!"});
+        setText(new String[]{"*Puff*","Please don't","I have a wife and family!"});
     }
 
     public void move() {
@@ -23,7 +23,7 @@ public class Ghost extends Monster {
         incrementMoveCounter();
 
         if (moveCounter < 5) return;
-//
+
         boolean isValidCoords = false;
         Cell nextCell = null;
 
@@ -63,5 +63,10 @@ public class Ghost extends Monster {
 
     public String getName(){
         return "";
+    }
+
+    @Override
+    public String toString(){
+        return "GHOST";
     }
 }

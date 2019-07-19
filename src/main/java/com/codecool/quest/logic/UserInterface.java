@@ -35,6 +35,9 @@ public class UserInterface {
         return healthLabel;
     }
 
+    public Label getInventoryLabel() {
+        return inventoryLabel;
+    }
 
     public void CreateUserInterfaceTopBar() {
         topPane.getStyleClass().add("top-ui-pane");
@@ -67,10 +70,10 @@ public class UserInterface {
         bottomPane.add(messageLabel, 0, 0);
     }
 
-    public void displayMonsterHealthBar(Monster monster){
-        Label lab = new Label(monster.getTileName());
-        ui.add(lab, 0, 0);
-    }
+//    public void displayMonsterHealthBar(Monster monster){
+//        Label lab = new Label(monster.getTileName());
+//        ui.add(lab, 0, 0);
+//    }
 
     public void showInventory(GameMap map){
         Inventory inv = map.getPlayer().getPlayerInventory();

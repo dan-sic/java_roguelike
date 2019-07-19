@@ -24,5 +24,9 @@ public class NPC extends Actor {
         return npcType;
     }
 
+    @Override
+    public String toString(){
+        return npcType.toUpperCase();
+    }
 }
 

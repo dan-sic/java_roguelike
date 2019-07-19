@@ -12,7 +12,9 @@ public class Key extends Item {
     public String getTileName() {
         return "key";
     }
-    private int attackModifier = 0;
 
-    // delete key method after opened door
+    @Override
+    public String toString() {
+        return "KEY";
+    }
 }

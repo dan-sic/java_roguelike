@@ -1,18 +1,16 @@
 package com.codecool.quest.logic.actors.monsters;
 
 import com.codecool.quest.logic.Cell;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Skeleton extends Monster {
-
 
     public Skeleton(Cell cell) {
         super(cell);
         this.isEnemy = true;
         this.health = 10;
         this.attackPower = 5;
-        setText(new String[]{"Urgh!","Please don't","I have a wife and family!"});
+        setText(new String[]{"*Kling*","Please don't","I have a wife and family!"});
     }
 
     public void move() {
@@ -43,5 +41,10 @@ public class Skeleton extends Monster {
 
     public String getName(){
         return "";
+    }
+
+    @Override
+    public String toString() {
+        return "SKELETON";
     }
 }

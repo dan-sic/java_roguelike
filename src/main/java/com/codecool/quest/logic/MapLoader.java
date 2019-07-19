@@ -6,6 +6,7 @@ import com.codecool.quest.logic.actors.monsters.Ghost;
 import com.codecool.quest.logic.actors.monsters.Golem;
 import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.monsters.Skeleton;
+import com.codecool.quest.logic.interactable.Chest;
 import com.codecool.quest.logic.items.Sword;
 import com.codecool.quest.logic.items.Key;
 import com.codecool.quest.logic.interactable.Doors;
@@ -35,48 +36,56 @@ public class MapLoader {
                 if (x < line.length()) {
                     Cell cell = map.getCell(x, y);
                     switch (line.charAt(x)) {
-                        case ' ':
+                        case ' ': //Empty
                             cell.setType(CellType.EMPTY);
                             break;
-                        case '#':
+                        case '#': //Wall
                             cell.setType(CellType.WALL);
                             break;
-                        case '.':
+                        case '.': //Floor
                             cell.setType(CellType.FLOOR);
                             break;
-                        case 's':
+                        case 's': //Monster Skeleton
                             cell.setType(CellType.FLOOR);
                             map.addMonster(new Skeleton(cell));
                             break;
-                        case 'o':
+                        case 'o': //Monster Golem
                             cell.setType(CellType.FLOOR);
                             map.addMonster(new Golem(cell));
                             break;
-                        case 'g':
+                        case 'g': //Monster Ghost
                             cell.setType(CellType.FLOOR);
                             map.addMonster(new Ghost(cell));
                             break;
-                        case '%':
+                        case '%': //Doors
                             cell.setType(CellType.DOORS);
                             new Doors(cell);
                             break;
-                        case '@':
+                        case 'C': //closed Chest
+                            cell.setType(CellType.FLOOR);
+                            new Chest(cell);
+                            break;
+                        case 'c': //open Chest
+                            cell.setType(CellType.FLOOR);
+                            //new Chest(cell).open();
+                            break;
+                        case '@': //Player
                             cell.setType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
                             break;
-                        case 'W':
+                        case 'W': //NPC Wizard
                             cell.setType(CellType.FLOOR);
                             new NPC(cell, NPCType.WIZARD);
                             break;
-                        case 'G':
+                        case 'G': //NPC Guard
                             cell.setType(CellType.FLOOR);
                             new NPC(cell, NPCType.GUARD);
                             break;
-                        case '!':
+                        case '!': //Item Sword
                             cell.setType(CellType.FLOOR);
                             new Sword(cell);
                             break;
-                        case 'k':
+                        case 'k': //Item Key
                             cell.setType(CellType.FLOOR);
                             new Key(cell);
                             break;
