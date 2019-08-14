@@ -16,6 +16,7 @@ public abstract class Actor implements Drawable, Movable {
     protected int defense;
     private String direction;
     protected boolean isEnemy;
+    protected boolean isHostile;
     private boolean dead;
     protected String[] text;
     protected int sentenceCounter;
@@ -113,9 +114,11 @@ public abstract class Actor implements Drawable, Movable {
         return getCell();
     }
 
-    public abstract String getName();
+    public boolean isHostile() {
+        return isHostile;
+    }
 
-    // public void setOnChange(...)
+    public abstract String getName();
 
     public void receiveAttack(int receivedDamage, int defenseModifier, Actor player){
         changeHealth(-(receivedDamage-defenseModifier));
@@ -123,10 +126,13 @@ public abstract class Actor implements Drawable, Movable {
         // onHealthChange();
         if (health<=0){
             die();
-        } else{
+        }else{
+            isHostile = true;
+        }
+        /*else{
             if( player != null)
                 this.attackPlayer(player);
-        }
+        }*/
     }
 
     public void attackPlayer(Actor player){
