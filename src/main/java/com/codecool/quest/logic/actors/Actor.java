@@ -122,17 +122,11 @@ public abstract class Actor implements Drawable, Movable {
 
     public void receiveAttack(int receivedDamage, int defenseModifier, Actor player){
         changeHealth(-(receivedDamage-defenseModifier));
-
-        // onHealthChange();
         if (health<=0){
             die();
         }else{
             isHostile = true;
         }
-        /*else{
-            if( player != null)
-                this.attackPlayer(player);
-        }*/
     }
 
     public void attackPlayer(Actor player){
@@ -150,7 +144,6 @@ public abstract class Actor implements Drawable, Movable {
     }
 
     public String getNextText(){
-        //int index = (int)(Math.random() * text.length);
         String temp = text[sentenceCounter];
         sentenceCounter++;
         if(sentenceCounter >= text.length){

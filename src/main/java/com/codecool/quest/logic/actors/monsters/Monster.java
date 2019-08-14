@@ -26,6 +26,4 @@ public abstract class Monster extends Actor {
         return false;
     }
 
-//    public void notifyRefreshToMonster();
-
 }
