@@ -8,6 +8,7 @@ import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.monsters.Skeleton;
 import com.codecool.quest.logic.interactable.Chest;
 import com.codecool.quest.logic.items.Armor;
+import com.codecool.quest.logic.items.Axe;
 import com.codecool.quest.logic.items.Sword;
 import com.codecool.quest.logic.items.Key;
 import com.codecool.quest.logic.interactable.Doors;
@@ -89,6 +90,10 @@ public class MapLoader {
                         case '!': //Item Sword
                             cell.setType(CellType.FLOOR);
                             new Sword(cell);
+                            break;
+                        case '?': //Item Axe
+                            cell.setType(CellType.FLOOR);
+                            new Axe(cell);
                             break;
                         case 'a': //Item Armor
                             cell.setType(CellType.FLOOR);

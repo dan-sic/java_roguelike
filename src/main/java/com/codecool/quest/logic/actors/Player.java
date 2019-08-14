@@ -71,7 +71,7 @@ public class Player extends Actor {
             item.vanishItem();
             playerInventory.addItem(item);
 
-            if(item.getTileName().equals("sword"))
+            if(item.getTileName().equals("sword") || item.getTileName().equals("axe"))
                 changeEquippedWeapon(item);
             if(item.getTileName().equals("armor"))
                 changeEquippedArmor(item);
@@ -92,8 +92,8 @@ public class Player extends Actor {
                     currentWeapon.setDurability(-30);
 
                     if (currentWeapon.getDurability() <= 0) {
-                        currentWeapon = null;
-                        this.playerInventory.removeItem("sword");
+                        this.playerInventory.removeItem(this.currentWeapon.getTileName());
+                        currentWeapon = this.playerInventory.getWeapon();
                     }
                 } else
                     actor.receiveAttack(getAttackPower(), actor.getDefense(), this);
