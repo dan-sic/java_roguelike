@@ -57,7 +57,7 @@ public class MapLoader {
                             map.addMonster(new Golem(cell));
                             break;
                         case 'g': //Monster Ghost
-                            cell.setType(CellType.FLOOR);
+                            cell.setType(CellType.EMPTY);
                             map.addMonster(new Ghost(cell));
                             break;
                         case '%': //Doors
