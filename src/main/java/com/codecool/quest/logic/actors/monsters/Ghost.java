@@ -27,6 +27,7 @@ public class Ghost extends Monster {
         boolean isValidCoords = false;
         Cell nextCell = null;
 
+
         while (!isValidCoords) {
             int randomXPos = ThreadLocalRandom.current().nextInt(1, 25);
             int randomYPos = ThreadLocalRandom.current().nextInt(1, 20);

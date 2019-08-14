@@ -2,6 +2,7 @@ package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.Inventory;
+import com.codecool.quest.logic.interactable.Interactable;
 import com.codecool.quest.logic.items.Item;
 
 
@@ -30,7 +31,7 @@ public class Player extends Actor {
     }
 
     public int getEquippedWeaponAttack(){
-        return currentlyEquipped.attackModifier;
+        return currentlyEquipped.getAttackModifier();
     }
 
     public Inventory getPlayerInventory(){
@@ -66,20 +67,27 @@ public class Player extends Actor {
         return false;
     }
 
-    private void attack(Actor actor){
-        if (currentlyEquipped != null){
-            //actor.printHealth("before");
-            actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()),this);
 
-            currentlyEquipped.durability -= 30;
 
-            if (currentlyEquipped.durability <= 0) {
-                currentlyEquipped = null;
-                this.playerInventory.removeItem("sword");
+    public String attack(){
+        Actor actor = getNextCell().getActor();
+        if(actor!= null) {
+            if(actor.isEnemy) {
+                if (currentlyEquipped != null) {
+                    //actor.printHealth("before");
+                    actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()), this);
+
+                    currentlyEquipped.setDurability(-30);
+
+                    if (currentlyEquipped.getDurability() <= 0) {
+                        currentlyEquipped = null;
+                        this.playerInventory.removeItem("sword");
+                    }
+                } else
+                    actor.receiveAttack(getAttackPower(), this);
             }
         }
-        else
-            actor.receiveAttack(getAttackPower(),this);
+        return getAttackMessage();
     }
 
     public String talk(){
@@ -94,17 +102,37 @@ public class Player extends Actor {
         return null;
     }
 
-    public String attack(){
+    private String getAttackMessage(){
         Actor actor = getNextCell().getActor();
         if(actor != null) {
             String message = actor.getNextText();
             if(actor.isEnemy) {
-                attack(actor);
                 return message;
             }
             return "Don't do that!";
         }
         return null;
+    }
+
+    public String interactWithObject(Interactable interactableItem) {
+        if(interactableItem.needsKey()) {
+            if (playerInventory.checkForItem("key")) {
+                interactableItem.Use();
+                playerInventory.removeItem("key");
+                return "";
+            }
+        }else{
+            interactableItem.Use();
+            Item found = interactableItem.searchForItems();
+            if(found != null) {
+                playerInventory.addItem(found);
+                return "Found a " + found;
+            }else{
+                return "Found nothing.";
+            }
+        }
+
+        return "";
     }
 
     public void setName(String name) {
