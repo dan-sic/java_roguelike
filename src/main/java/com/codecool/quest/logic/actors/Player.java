@@ -12,7 +12,8 @@ public class Player extends Actor {
     private Inventory playerInventory;
     private String name;
 
-    private Item currentlyEquipped = null;
+    private Item currentWeapon = null;
+    private Item currentArmor = null;
 
     public Player(Cell cell) {
         super(cell);
@@ -28,11 +29,21 @@ public class Player extends Actor {
     }
 
     public void changeEquippedWeapon(Item newWeapon){
-        currentlyEquipped = newWeapon;
+        currentWeapon = newWeapon;
     }
 
+    public void changeEquippedArmor(Item newArmor) { currentArmor = newArmor; }
+
     public int getEquippedWeaponAttack(){
-        return currentlyEquipped.getAttackModifier();
+        return currentWeapon.getAttackModifier();
+    }
+
+    @Override
+    public int getDefense(){
+        if (currentArmor != null)
+            return currentArmor.getDefenseModifier();
+        else
+            return 0;
     }
 
     public Inventory getPlayerInventory(){
@@ -62,6 +73,8 @@ public class Player extends Actor {
 
             if(item.getTileName().equals("sword"))
                 changeEquippedWeapon(item);
+            if(item.getTileName().equals("armor"))
+                changeEquippedArmor(item);
 
             return true;
         }
@@ -72,21 +85,25 @@ public class Player extends Actor {
         Actor actor = getNextCell().getActor();
         if(actor!= null) {
             if(actor.isEnemy) {
-                if (currentlyEquipped != null) {
+                if (currentWeapon != null) {
                     //actor.printHealth("before");
-                    actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()), this);
+                    actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()), actor.getDefense(), this);
 
-                    currentlyEquipped.setDurability(-30);
+                    currentWeapon.setDurability(-30);
 
-                    if (currentlyEquipped.getDurability() <= 0) {
-                        currentlyEquipped = null;
+                    if (currentWeapon.getDurability() <= 0) {
+                        currentWeapon = null;
                         this.playerInventory.removeItem("sword");
                     }
                 } else
-                    actor.receiveAttack(getAttackPower(), this);
+                    actor.receiveAttack(getAttackPower(), actor.getDefense(), this);
             }
         }
-        return getAttackMessage();
+        if(!this.isDead()) {
+            return getAttackMessage();
+        }else{
+            return "";
+        }
     }
 
     public String talk(){
