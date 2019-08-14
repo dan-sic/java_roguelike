@@ -126,8 +126,12 @@ public class Main extends Application {
                     }
                     break;
                 case H:
-                    String message = player.heal();
+                    String message = player.useHealthPotion();
                     UserInterface.getMessageLabel().setText(message);
+                    break;
+                case J:
+                    String msg = player.usePowerPotion();
+                    UserInterface.getMessageLabel().setText(msg);
                     break;
             }
         }

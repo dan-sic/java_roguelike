@@ -16,14 +16,16 @@ public class Player extends Actor {
     private Item currentArmor = null;
 
     private int maxHealth;
+    private boolean isAttackBoosted;
 
     public Player(Cell cell) {
         super(cell);
         playerInventory = new Inventory();
         this.isEnemy = false;
         this.health = 15;
-        this.maxHealth = 15;
+        maxHealth = 15;
         this.attackPower = 5;
+        isAttackBoosted = false;
     }
 
     public String getTileName() {
@@ -47,6 +49,12 @@ public class Player extends Actor {
             return currentArmor.getDefenseModifier();
         else
             return 0;
+    }
+
+    public int getAttackModifier(){
+        if(isAttackBoosted)
+            return 3;
+        return 1;
     }
 
     public Inventory getPlayerInventory(){
@@ -89,8 +97,7 @@ public class Player extends Actor {
         if(actor!= null) {
             if(actor.isEnemy) {
                 if (currentWeapon != null) {
-                    //actor.printHealth("before");
-                    actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack()), actor.getDefense(), this);
+                    actor.receiveAttack((getAttackPower() + getEquippedWeaponAttack())*getAttackModifier(), actor.getDefense(), this);
 
                     currentWeapon.setDurability(-30);
 
@@ -100,6 +107,7 @@ public class Player extends Actor {
                     }
                 } else
                     actor.receiveAttack(getAttackPower(), actor.getDefense(), this);
+                isAttackBoosted = false;
             }
         }
         if(!this.isDead()) {
@@ -109,7 +117,7 @@ public class Player extends Actor {
         }
     }
 
-    public String heal(){
+    public String useHealthPotion(){ // heals for max 10hp or up to max hp (if potion in inventory)
         if(this.playerInventory.checkForItem("health_potion")){
             this.playerInventory.removeItem("health_potion");
             if(this.health < this.maxHealth - 10){
@@ -122,6 +130,15 @@ public class Player extends Actor {
         }
 
         return "You don't have health potions!";
+    }
+
+    public String usePowerPotion(){ // multiplies dmg done by 3 for 1 attack (if potion in inventory)
+        if(this.playerInventory.checkForItem("power_potion")){
+            this.playerInventory.removeItem("power_potion");
+            isAttackBoosted = true;
+            return "Next attack will be 3x more powerful!";
+        }
+        return "You don't have power potions!";
     }
 
     public String talk(){
