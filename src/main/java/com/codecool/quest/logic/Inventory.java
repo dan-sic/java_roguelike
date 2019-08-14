@@ -16,7 +16,7 @@ public class Inventory {
         if(!(inventory.size() == 0)){
             for(Item item: inventory){
                 itemsSB.append(" » ");
-                itemsSB.append(item.getTileName().toUpperCase());
+                itemsSB.append(item.toString());
                 itemsSB.append("\n");
             }
         }else{

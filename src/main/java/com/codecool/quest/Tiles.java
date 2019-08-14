@@ -42,6 +42,7 @@ public class Tiles {
         tileMap.put("axe", new Tile(6, 29));
         tileMap.put("armor", new Tile(0, 23));
         tileMap.put("key", new Tile(16,23));
+        tileMap.put("health_potion", new Tile(17,25));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

@@ -15,11 +15,14 @@ public class Player extends Actor {
     private Item currentWeapon = null;
     private Item currentArmor = null;
 
+    private int maxHealth;
+
     public Player(Cell cell) {
         super(cell);
         playerInventory = new Inventory();
         this.isEnemy = false;
         this.health = 15;
+        this.maxHealth = 15;
         this.attackPower = 5;
     }
 
@@ -104,6 +107,21 @@ public class Player extends Actor {
         }else{
             return "";
         }
+    }
+
+    public String heal(){
+        if(this.playerInventory.checkForItem("health_potion")){
+            this.playerInventory.removeItem("health_potion");
+            if(this.health < this.maxHealth - 10){
+                this.health += 10;
+            }else{
+                this.health = this.maxHealth;
+            }
+
+            return "Healed 10 HP";
+        }
+
+        return "You don't have health potions!";
     }
 
     public String talk(){

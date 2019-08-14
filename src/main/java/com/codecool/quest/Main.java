@@ -125,6 +125,10 @@ public class Main extends Application {
                         changingDirection = false;
                     }
                     break;
+                case H:
+                    String message = player.heal();
+                    UserInterface.getMessageLabel().setText(message);
+                    break;
             }
         }
         refresh();

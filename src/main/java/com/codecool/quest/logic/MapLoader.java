@@ -2,16 +2,13 @@ package com.codecool.quest.logic;
 
 import com.codecool.quest.logic.actors.NPC;
 import com.codecool.quest.logic.actors.NPCType;
+import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.monsters.Ghost;
 import com.codecool.quest.logic.actors.monsters.Golem;
-import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.monsters.Skeleton;
 import com.codecool.quest.logic.interactable.Chest;
-import com.codecool.quest.logic.items.Armor;
-import com.codecool.quest.logic.items.Axe;
-import com.codecool.quest.logic.items.Sword;
-import com.codecool.quest.logic.items.Key;
 import com.codecool.quest.logic.interactable.Doors;
+import com.codecool.quest.logic.items.*;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -102,6 +99,10 @@ public class MapLoader {
                         case 'k': //Item Key
                             cell.setType(CellType.FLOOR);
                             new Key(cell);
+                            break;
+                        case '+': //Item Health Potion
+                            cell.setType(CellType.FLOOR);
+                            new HealthPotion(cell);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
