@@ -49,7 +49,6 @@ public class Main extends Application {
         createScene(borderPane, primaryStage);
     }
 
-
     private void createScene(BorderPane borderPane, Stage primaryStage){
         Scene scene = new Scene(borderPane);
         scene.getStylesheets().add("style.css");
@@ -62,7 +61,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
     private void moveMonsters() {
         List<Monster> monsters = map.getMonsters();
 
@@ -72,16 +70,21 @@ public class Main extends Application {
     }
 
     private void movePlayer(String direction, int xDir, int yDir) {
-        map.getPlayer().changeDirection(direction);
+        Player player = map.getPlayer();
+        player.changeDirection(direction);
         if(changingDirection){
             UserInterface.getMessageLabel().setText("Attacking direction: " + direction);
         }else{
-            map.getPlayer().move(xDir, yDir);
+            player.move(xDir, yDir);
             moveMonsters();
             UserInterface.getMessageLabel().setText("");
+            if(player.isOnStairs()){
+                map = MapLoader.loadNextLevel();
+                player.updatePlayerNewPosition(map.getPlayer());
+                map.setPlayer(player);
+            }
         }
     }
-
 
     private void onKeyPressed(KeyEvent keyEvent) {
         Player player = map.getPlayer();
@@ -123,7 +126,6 @@ public class Main extends Application {
                     changingDirection = false;
                 }
                 break;
-
         }
         refresh();
     }
@@ -153,8 +155,6 @@ public class Main extends Application {
             UserInterface.getMessageLabel().setText("YOU ARE DEAD!!");
         }
     }
-
-
 
     private void showInventory(){
         Inventory inv = map.getPlayer().getPlayerInventory();
