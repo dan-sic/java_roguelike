@@ -16,13 +16,14 @@ import java.util.Scanner;
 
 public class MapLoader {
     private static GameMap map;
+    private static int currentLevel = 1;
 
     public static GameMap getCurrentMap() {
         return MapLoader.map;
     }
 
     public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+        InputStream is = MapLoader.class.getResourceAsStream("/map"+currentLevel+".txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -44,6 +45,9 @@ public class MapLoader {
                             break;
                         case '.': //Floor
                             cell.setType(CellType.FLOOR);
+                            break;
+                        case '\\': //Stairs
+                            cell.setType(CellType.STAIRS);
                             break;
                         case 's': //Monster Skeleton
                             cell.setType(CellType.FLOOR);
@@ -67,7 +71,7 @@ public class MapLoader {
                             break;
                         case 'c': //open Chest
                             cell.setType(CellType.FLOOR);
-                            //new Chest(cell).open();
+                            new Chest(cell).Use();
                             break;
                         case '@': //Player
                             cell.setType(CellType.FLOOR);
@@ -101,4 +105,8 @@ public class MapLoader {
         return map;
     }
 
+    public static GameMap loadNextLevel(){
+        currentLevel++;
+        return loadMap();
+    }
 }

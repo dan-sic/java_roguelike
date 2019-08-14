@@ -1,6 +1,7 @@
 package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
+import com.codecool.quest.logic.CellType;
 import com.codecool.quest.logic.Inventory;
 import com.codecool.quest.logic.interactable.Interactable;
 import com.codecool.quest.logic.items.Item;
@@ -66,8 +67,6 @@ public class Player extends Actor {
         }
         return false;
     }
-
-
 
     public String attack(){
         Actor actor = getNextCell().getActor();
@@ -141,6 +140,14 @@ public class Player extends Actor {
 
     public String getName(){
         return name;
+    }
+
+    public void updatePlayerNewPosition(Player nextLevelPlayer){
+        this.changeCell(nextLevelPlayer.getCell());
+    }
+
+    public boolean isOnStairs(){
+        return this.getCell().getType()== CellType.STAIRS;
     }
 
 }
