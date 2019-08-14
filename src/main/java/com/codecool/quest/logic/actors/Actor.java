@@ -13,8 +13,10 @@ public abstract class Actor implements Drawable, Movable {
     protected int health;
     private String[] cheatNames = {"Michał", "Piotrek", "Janek", "Olek", "Daniel"};
     protected int attackPower;
+    protected int defense;
     private String direction;
     protected boolean isEnemy;
+    protected boolean isHostile;
     private boolean dead;
     protected String[] text;
     protected int sentenceCounter;
@@ -24,6 +26,7 @@ public abstract class Actor implements Drawable, Movable {
         this.cell.setActor(this);
         this.direction = "up";
         this.dead = false;
+        this.defense = 0;
     }
 
     public void move(int dx, int dy) {
@@ -73,6 +76,10 @@ public abstract class Actor implements Drawable, Movable {
         return attackPower;
     }
 
+    public int getDefense(){
+        return defense;
+    }
+
     public String getDirection(){
         return direction;
     }
@@ -107,24 +114,23 @@ public abstract class Actor implements Drawable, Movable {
         return getCell();
     }
 
+    public boolean isHostile() {
+        return isHostile;
+    }
+
     public abstract String getName();
 
-    // public void setOnChange(...)
-
-    public void receiveAttack(int receivedDamage, Actor player){
-        changeHealth(-receivedDamage);
-
-        // onHealthChange();
+    public void receiveAttack(int receivedDamage, int defenseModifier, Actor player){
+        changeHealth(-(receivedDamage-defenseModifier));
         if (health<=0){
             die();
-        } else{
-            if( player != null)
-                this.attackPlayer(player);
+        }else{
+            isHostile = true;
         }
     }
 
     public void attackPlayer(Actor player){
-        player.receiveAttack(getAttackPower(),null);
+        player.receiveAttack(getAttackPower(), player.getDefense(), null);
     }
 
     public void die(){
@@ -138,7 +144,6 @@ public abstract class Actor implements Drawable, Movable {
     }
 
     public String getNextText(){
-        //int index = (int)(Math.random() * text.length);
         String temp = text[sentenceCounter];
         sentenceCounter++;
         if(sentenceCounter >= text.length){
