@@ -1,16 +1,18 @@
 package com.codecool.quest;
 
 import com.codecool.quest.logic.*;
+import com.codecool.quest.logic.actors.Player;
 import com.codecool.quest.logic.actors.monsters.Monster;
-import com.codecool.quest.logic.items.Item;
+import com.codecool.quest.logic.interactable.Interactable;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
 import java.util.List;
 
 
@@ -69,96 +71,64 @@ public class Main extends Application {
         }
     }
 
+    private void movePlayer(String direction, int xDir, int yDir) {
+        map.getPlayer().changeDirection(direction);
+        if(changingDirection){
+            UserInterface.getMessageLabel().setText("Attacking direction: " + direction);
+        }else{
+            map.getPlayer().move(xDir, yDir);
+            moveMonsters();
+            UserInterface.getMessageLabel().setText("");
+        }
+    }
+
 
     private void onKeyPressed(KeyEvent keyEvent) {
-        if(map.getPlayer().getHealth() > 0)
+        Player player = map.getPlayer();
+        Inventory playerInventory = player.getPlayerInventory();
+        Interactable interactableItem = player.getNextCell().getInteractable();
+
+        if(player.getHealth() > 0)
         switch (keyEvent.getCode()) {
             case UP:
-                map.getPlayer().changeDirection("up");
-                if(changingDirection){
-                    UserInterface.getMessageLabel().setText("Attacking direction: Up");
-                }else{
-                    map.getPlayer().move(0, -1);
-//                    moveMonsters();
-                    UserInterface.getMessageLabel().setText("");
-                    refresh();
-                }
+                movePlayer("up", 0, -1);
                 break;
             case DOWN:
-                map.getPlayer().changeDirection("down");
-                if(changingDirection){
-                    UserInterface.getMessageLabel().setText("Attacking direction: Down");
-                }else{
-                    map.getPlayer().move(0, 1);
-//                    moveMonsters();
-                    UserInterface.getMessageLabel().setText("");
-                    refresh();
-                }
+                movePlayer("down", 0, 1);
                 break;
             case LEFT:
-                map.getPlayer().changeDirection("left");
-                if(changingDirection){
-                    UserInterface.getMessageLabel().setText("Attacking direction: Left");
-                }else{
-                    map.getPlayer().move(-1, 0);
-//                    moveMonsters();
-                    UserInterface.getMessageLabel().setText("");
-                    refresh();
-                }
+                movePlayer("left", -1, 0);
                 break;
             case RIGHT:
-                map.getPlayer().changeDirection("right");
-                if(changingDirection){
-                    UserInterface.getMessageLabel().setText("Attacking direction: Right");
-                }else {
-                    map.getPlayer().move(1, 0);
-//                    moveMonsters();
-                    UserInterface.getMessageLabel().setText("");
-                    refresh();
-                }
+                movePlayer("right", 1, 0);
                 break;
             case E:
-                if(map.getPlayer().pickItem()) {
-                    UserInterface.getMessageLabel().setText(String.format("Picked a %s",map.getPlayer().getPlayerInventory().getLastItem()));
-                }else if(map.getPlayer().getNextCell().getInteractable() != null) { //check for doors/chests
-                    if(map.getPlayer().getNextCell().getInteractable().needsKey()) {
-                        if (map.getPlayer().getPlayerInventory().checkForItem("key")) {
-                            map.getPlayer().getNextCell().getInteractable().Use();
-                            map.getPlayer().getPlayerInventory().removeItem("key");
-                            UserInterface.getMessageLabel().setText("");
-                        }
-                    }else{
-                        map.getPlayer().getNextCell().getInteractable().Use();
-                        Item found = map.getPlayer().getNextCell().getInteractable().searchForItems();
-                        if(found != null) {
-                            map.getPlayer().getPlayerInventory().addItem(found);
-                            UserInterface.getMessageLabel().setText(String.format("Found a %s", found));
-                        }else{
-                            UserInterface.getMessageLabel().setText("Found nothing.");
-                        }
-                    }
+                if(player.pickItem()) {
+                    UserInterface.getMessageLabel().setText(String.format("Picked a %s",playerInventory.getLastItem()));
+                }else if(interactableItem != null) { //check for doors/chests
+                    String interactionMessage = player.interactWithObject(interactableItem);
+                    UserInterface.getMessageLabel().setText(interactionMessage);
                 }else{
-                    String message = map.getPlayer().talk();
+                    String message = player.talk();
                     UserInterface.getMessageLabel().setText(message);
                 }
-                refresh();
                 break;
             case R:
                 if(!changingDirection){
                     changingDirection = true;
                     UserInterface.getMessageLabel().setText("Choose attack direction and press R to attack");
                 }else{
-                    String message = map.getPlayer().attack();
+                    String message = player.attack();
                     UserInterface.getMessageLabel().setText(message);
                     changingDirection = false;
-                    refresh();
                 }
                 break;
+
         }
+        refresh();
     }
 
     private void refresh() {
-        moveMonsters();
         showInventory();
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());

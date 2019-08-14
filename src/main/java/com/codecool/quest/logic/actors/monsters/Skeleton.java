@@ -18,6 +18,7 @@ public class Skeleton extends Monster {
         boolean isValidCoords = false;
         Cell nextCell = null;
 
+//        if skeleton is surrounded from every side > it may get stuck
         while (!isValidCoords) {
             int randomXPos = ThreadLocalRandom.current().nextInt(-1, 1 + 1);
             int randomYPos = ThreadLocalRandom.current().nextInt(-1, 1 + 1);

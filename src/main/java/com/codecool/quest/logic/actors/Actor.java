@@ -2,8 +2,6 @@ package com.codecool.quest.logic.actors;
 
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
-import com.codecool.quest.logic.UserInterface;
-import com.codecool.quest.logic.interactable.Interactable;
 import com.codecool.quest.logic.interfaces.Drawable;
 import com.codecool.quest.logic.interfaces.Movable;
 
@@ -34,17 +32,8 @@ public abstract class Actor implements Drawable, Movable {
         List<String> cheatNamesList = Arrays.asList(cheatNames);
         String actorName = cell.getActor().getName();
 
-        boolean isNextCellWall = nextCell.getType().equals(CellType.WALL);
-        boolean isNextCellActor = nextCell.getActor() != null;
-        boolean isNextCellDoorClosed = false;
-        if (nextCell.getInteractable() != null){
-            isNextCellDoorClosed = !nextCell.getInteractable().isPassable();
-        }
-
-        if (!isNextCellWall && !isNextCellActor && !isNextCellDoorClosed) {
-            changeCell(nextCell);
-        //checks if player name equals any name on cheatList
-        }else if(cheatNamesList.contains(actorName)){
+        boolean isProvidedCheat = cheatNamesList.contains(actorName);
+        if (isMoveValid(nextCell) || isProvidedCheat) {
             changeCell(nextCell);
         }
 
@@ -68,13 +57,6 @@ public abstract class Actor implements Drawable, Movable {
         cell.setActor(null);
         nextCell.setActor(this);
         cell = nextCell;
-    }
-    public void printHealth(String msg){
-        System.out.println(health+msg);
-    }
-
-    public void changeAttackPower(int change){
-        attackPower += change;
     }
 
     public int getHealth() {
@@ -134,7 +116,7 @@ public abstract class Actor implements Drawable, Movable {
 
         // onHealthChange();
         if (health<=0){
-            death();
+            die();
         } else{
             if( player != null)
                 this.attackPlayer(player);
@@ -145,7 +127,7 @@ public abstract class Actor implements Drawable, Movable {
         player.receiveAttack(getAttackPower(),null);
     }
 
-    public void death(){
+    public void die(){
         getCell().setActor(null);
         cell = null;
         dead = true;

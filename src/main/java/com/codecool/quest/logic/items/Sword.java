@@ -6,7 +6,6 @@ public class Sword extends Item {
 
     public Sword(Cell cell) {
         super(cell);
-        this.attackModifier = 5;
         this.durability = 100;
     }
 
@@ -18,6 +17,11 @@ public class Sword extends Item {
     @Override
     public String toString() {
         return "SWORD";
+    }
+
+    @Override
+    public int getAttackModifier() {
+        return 5;
     }
 
     // sword check durability method and delete sword method
