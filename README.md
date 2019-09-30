@@ -1,23 +1,9 @@
 # Codecool Quest
 
-This is a simple tile-based RPG game.
+## About the project
 
-## Opening the project
+This is a simple tile-based RPG game I've made as a part of a group project rugin Codecool course. The project focused on implementing principles of OOP design.
 
-Open the project in IntelliJ IDEA. This is a Maven project, so you will need to open `pom.xml`.
+## Technologies used
 
-The project is using JavaFX, and should work with Oracle's Java 8.
-
-## Architecture
-
-The project is meant to teach the concept of **layer separation**. All of the game logic (that is, player movement, game rules, and so on), is in the `logic` package, completely independent of user interface code. In principle, you could implement a completely different interface (terminal, web, Virtual Reality...) for the same logic code.
-
-## Product Backlog
-
-[Codecool Quest Product Backlog](https://docs.google.com/spreadsheets/d/1CvVh2s6obWEh4eQxu8w4f3jBLhz208bG-1FybWGc1sA/edit#gid=0)
-
-## Graphics
-
-The tiles used in the game are from [1-Bit Pack by Kenney](https://kenney.nl/assets/bit-pack), shared on [CC0 1.0 Universal license](https://creativecommons.org/publicdomain/zero/1.0/).
-
-![tiles](src/main/resources/tiles.png)
+The project is built in Java8 using JavaFX and Maven. 
