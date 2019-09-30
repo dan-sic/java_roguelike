@@ -2,19 +2,23 @@ package com.codecool.quest.logic.items;
 
 import com.codecool.quest.logic.Cell;
 
-public class Key extends Item {
+public class Armor extends Item {
 
-    public Key(Cell cell) {
+    public Armor(Cell cell) {
         super(cell);
+        this.durability = 200;
     }
 
     @Override
     public String getTileName() {
-        return "key";
+        return "armor";
     }
 
     @Override
     public String toString() {
-        return "KEY";
+        return "ARMOR";
     }
+
+    @Override
+    public int getDefenseModifier() { return 2;}
 }

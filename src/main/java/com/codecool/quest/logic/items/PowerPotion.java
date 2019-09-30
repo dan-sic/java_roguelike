@@ -2,19 +2,19 @@ package com.codecool.quest.logic.items;
 
 import com.codecool.quest.logic.Cell;
 
-public class Key extends Item {
+public class PowerPotion extends Item {
 
-    public Key(Cell cell) {
+    public PowerPotion(Cell cell) {
         super(cell);
     }
 
     @Override
     public String getTileName() {
-        return "key";
+        return "power_potion";
     }
 
     @Override
     public String toString() {
-        return "KEY";
+        return "POWER POTION";
     }
 }
